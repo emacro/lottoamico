@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package it.emacro.distances;
 
 import java.awt.event.ActionEvent;
@@ -11,10 +14,17 @@ import javax.swing.JFrame;
  */
 public class ResultShower extends JFrame implements ActionListener {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	public ResultShower() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

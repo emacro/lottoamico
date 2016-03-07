@@ -9,8 +9,6 @@
  */
 package it.emacro.extractor.util;
 
-import it.emacro.log.Log;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -32,7 +30,7 @@ public class PropertyLoader {
                 try {
                     fin.close();
                 } catch (IOException e) {
-                	Log.print(e);
+                	e.printStackTrace();
                     // LogManager.getInstance().error(e);
                 }
             }
@@ -46,7 +44,7 @@ public class PropertyLoader {
             properties = getProperties(path);
         } catch (Exception e) {
             properties = new Properties();
-            Log.print(e);
+            e.printStackTrace();
             // LogManager.getInstance().error(e);
         }
         return properties;

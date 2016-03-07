@@ -1,0 +1,13 @@
+L'ultimo numero delle quartine e' l'ambata principale.
+I numeri sono da giocare per massimo 9 estrazioni.
+
+Bari, Palermo  31.66.3.58   (35 - 27)
+Genova, Venezia  70.39.79.20   (31 - 40)
+Genova, Milano  39.69.13.73   (30 - 34)
+Genova, Napoli  39.69.60.30   (30 - 9)
+Milano, Napoli  62.2.60.30   (30 - 32)
+Napoli, Torino  30.86.72.16   (34 - 14)
+Napoli, Palermo  63.11.58.20   (38 - 43)
+Napoli, Palermo  63.11.59.21   (38 - 42)
+Palermo, Torino  20.59.20.59   (39 - 39)
+

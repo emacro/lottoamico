@@ -3,8 +3,6 @@
  */
 package it.emacro.extractor;
 
-import it.emacro.log.Log;
-
 /**
  * @author Emc
  *
@@ -35,10 +33,9 @@ public class Main {
 //			new Extractor().extract("D:/workspace/lotto_extractor/extractions/20070707.txt",
 //									"D:/workspace/lotto_extractor/extractions/out_20070707.txt");
 			
-			new Extractor().extract(INPUT_FILE_FOLDER + fileName,
-									INPUT_FILE_FOLDER + "out_" + fileName);
+			new ExtractorTXT().extract(INPUT_FILE_FOLDER + fileName, INPUT_FILE_FOLDER + "out_" + fileName);
 		} catch (Exception e) {
-			Log.print(e);
+			e.printStackTrace();
 		}
 	}
 

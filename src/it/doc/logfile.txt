@@ -1,0 +1,51 @@
+Class documentation
+<---- javadoc command: ---->
+C:\Programmi\Java\jdk1.7.0_03\bin\javadoc.exe
+-author
+-version
+-nodeprecated
+-package
+-noindex
+-notree
+-nohelp
+-nonavbar
+-source
+1.7
+-classpath
+C:\Programmi\BlueJ\lib\bluejcore.jar;C:\Programmi\BlueJ\lib\junit-4.8.2.jar;D:\lotto_DB_project\src\it
+-d
+D:\lotto_DB_project\src\it\doc
+-encoding
+windows-1252
+-charset
+windows-1252
+-docletpath
+C:\Programmi\BlueJ\lib\bjdoclet.jar
+-doclet
+bluej.doclet.doclets.formats.html.HtmlDoclet
+D:\lotto_DB_project\src\it\emacro\zip\Zipper.java
+<---- end of javadoc command ---->
+Loading source file D:\lotto_DB_project\src\it\emacro\zip\Zipper.java...
+Constructing Javadoc information...
+D:\lotto_DB_project\src\it\emacro\zip\Zipper.java:3: error: package it.emacro.log does not exist
+import it.emacro.log.Log;
+                    ^
+D:\lotto_DB_project\src\it\emacro\zip\Zipper.java:4: error: package it.emacro.util does not exist
+import it.emacro.util.Messenger;
+                     ^
+D:\lotto_DB_project\src\it\emacro\zip\Zipper.java:5: error: package it.emacro.util does not exist
+import it.emacro.util.Utils;
+                     ^
+Standard Doclet version 1.7.0_03
+Building tree for all the packages and classes...
+Generating D:\lotto_DB_project\src\it\doc\emacro\zip\Zipper.html...
+Generating D:\lotto_DB_project\src\it\doc\emacro\zip\package-frame.html...
+Generating D:\lotto_DB_project\src\it\doc\emacro\zip\package-summary.html...
+Generating D:\lotto_DB_project\src\it\doc\constant-values.html...
+Building index for all the packages and classes...
+Building index for all classes...
+Generating D:\lotto_DB_project\src\it\doc\allclasses-frame.html...
+Generating D:\lotto_DB_project\src\it\doc\allclasses-noframe.html...
+Generating D:\lotto_DB_project\src\it\doc\index.html...
+Generating D:\lotto_DB_project\src\it\doc\stylesheet.css...
+3 warnings

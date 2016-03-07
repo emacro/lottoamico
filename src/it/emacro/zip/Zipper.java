@@ -22,7 +22,6 @@ import java.util.zip.ZipOutputStream;
 public class Zipper {
 	static final int BUFFER = 2048;
 
-	@SuppressWarnings("unchecked")
 	public static void unzip(String fileName) {
 		BufferedOutputStream dest = null;
 		BufferedInputStream is = null;
@@ -92,7 +91,7 @@ public class Zipper {
 			}
 			out.close();
 		} catch (Exception e) {
-			Log.print(e);
+			e.printStackTrace();
 		}
 	}
 

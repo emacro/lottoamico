@@ -34,7 +34,7 @@ public class ExtractionsCacherThread extends Thread {
 
 		} catch (Exception e) {
 			Log.println("Exception during the extractions caching");
-			Log.print(e);
+			e.printStackTrace();
 		}
 	}
 

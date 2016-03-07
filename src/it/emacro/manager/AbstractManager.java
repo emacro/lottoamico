@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package it.emacro.manager;
 
 /**
@@ -6,6 +9,9 @@ package it.emacro.manager;
  */
 public abstract class AbstractManager {
 
+	/**
+	 * 
+	 */
 	public AbstractManager() {
 		super();
 	}

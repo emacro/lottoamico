@@ -6,7 +6,7 @@ cd ..\WebContent\
 :: set Path=%Path%;%JAVA_HOME%\bin
 
 set LIB_HOME=WEB-INF\lib
-set JAVA_EXEC=..\java\jre6\bin\java
+set JAVA_EXEC=..\java\jre7\bin\java
 
 set JARS=%LIB_HOME%\h2.jar
 set JARS=%JARS%;%LIB_HOME%\commons-collections-3.1.jar
@@ -24,12 +24,12 @@ set SYSTEM_LOOK_AND_FEEL=false
 
 :local_jre
 @echo Errore: JAVA_HOME non settata o non trovata nella cartella [%JAVA_HOME%], utilizzero' java locale [%JAVA_EXEC%]
-%JAVA_EXEC% -Xmx500M -Xms256M -Drootpath=D:/lotto_amico_20101218/ -cp "%c%" it.emacro.main.Main %DOWNLOAD_EXTRACTIONS_FILE% %DB_LOADER% %SYSTEM_LOOK_AND_FEEL%
+%JAVA_EXEC% -Xmx500M -Xms256M -cp "%c%" it.emacro.main.Main %DOWNLOAD_EXTRACTIONS_FILE% %DB_LOADER% %SYSTEM_LOOK_AND_FEEL%
 goto :end_
 
 :sys_jre
 @echo Info: verra' utilizzata JAVA di sistema [%JAVA_HOME%]
-java -Xmx500M -Xms256M -Drootpath=D:/lotto_amico_20101218/ -cp "%c%" it.emacro.main.Main %DOWNLOAD_EXTRACTIONS_FILE% %DB_LOADER% %SYSTEM_LOOK_AND_FEEL%
+java -Xmx500M -Xms256M -cp "%c%" it.emacro.main.Main %DOWNLOAD_EXTRACTIONS_FILE% %DB_LOADER% %SYSTEM_LOOK_AND_FEEL%
 
 
 :end_

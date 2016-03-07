@@ -51,11 +51,4 @@ public class Ruota {
 		this.name = name;
 	}
 
-	@Override
-	public String toString() {
-		return "Ruota [extracts=" + extracts + ", id=" + id + ", name=" + name + "]";
-	}
-	
-	
-
 }

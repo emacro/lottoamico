@@ -1,8 +1,5 @@
-/**
- * 
- */
 package it.emacro.cache;
-
+ 
 import java.util.ArrayList;
 import java.util.List;
 

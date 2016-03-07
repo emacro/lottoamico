@@ -1,0 +1,23 @@
+#BlueJ package file
+package.editor.height=400
+package.editor.width=560
+package.editor.x=370
+package.editor.y=113
+package.numDependencies=0
+package.numTargets=2
+package.showExtends=true
+package.showUses=true
+target1.height=50
+target1.name=ExtractionsDbLoaderThread
+target1.showInterface=false
+target1.type=ClassTarget
+target1.width=180
+target1.x=10
+target1.y=90
+target2.height=50
+target2.name=ExtractionsCacherThread
+target2.showInterface=false
+target2.type=ClassTarget
+target2.width=170
+target2.x=160
+target2.y=190

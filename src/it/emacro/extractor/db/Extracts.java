@@ -3,8 +3,6 @@
  */
 package it.emacro.extractor.db;
 
-import java.util.Arrays;
-
 /**
  * @author Emc
  *
@@ -63,14 +61,5 @@ public class Extracts {
 	public void setRuota(int ruota) {
 		this.ruota = ruota;
 	}
-
-	@Override
-	public String toString() {
-		return "Extracts [extraction=" + extraction + ", id=" + id
-				+ ", numbers=" + Arrays.toString(numbers) + ", ruota=" + ruota
-				+ "]";
-	}
-	
-	
 
 }

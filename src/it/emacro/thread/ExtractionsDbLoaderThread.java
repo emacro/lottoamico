@@ -3,7 +3,7 @@
  */
 package it.emacro.thread;
 
-import it.emacro.extractor.Extractor;
+import it.emacro.extractor.ExtractorTXT;
 import it.emacro.log.Log;
 import it.emacro.services.ApplicationData;
 import it.emacro.util.Messenger;
@@ -27,7 +27,7 @@ public class ExtractionsDbLoaderThread extends Thread {
 			loadExtractions();
 		} catch (Exception e) {
 			Log.println("Exception in extraction loading");
-			Log.print(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -43,7 +43,7 @@ public class ExtractionsDbLoaderThread extends Thread {
 			out = new File(Utils.INPUT_FILE_FOLDER + "out/" + "out_" + today
 					+ ".txt");
 
-			new Extractor().extract(in, out);
+			new ExtractorTXT().extract(in, out);
 
 			if (in.delete()) {
 //				Log.println("\ndeleted: " + fName +"\n");
@@ -57,7 +57,7 @@ public class ExtractionsDbLoaderThread extends Thread {
 			Log.println("\ncause errors: " + fName
 					+ " has been renamed to " + fName + "." + today + ".ERR\n");
 			Log.println("Exception in extraction loading");
-			Log.print(e);
+			e.printStackTrace();
 		}
 	}
 

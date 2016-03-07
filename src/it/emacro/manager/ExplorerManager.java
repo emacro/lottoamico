@@ -37,20 +37,20 @@ public class ExplorerManager extends AbstractManager {
 	 *            the index of returned List
 	 * @return a list of 11 elements (ruote) containing an array of 5 (numbers)
 	 */
-	public synchronized List<String[]> getExtraction(int count) {
+	public List<String[]> getExtraction(int count) {
 		actualExtractionCount = count;
 		String date = DatesManager.getInstance().getDate(actualExtractionCount);
 		return getExtractionByDate(date);
 	}
 	
-	public synchronized int getLastExtractionCount() {
+	public int getLastExtractionCount() {
 		if (actualExtractionCount < 0) {
 			throw new RuntimeException("Il number count passato non e' valido (-1)");
 		}
 		return actualExtractionCount;
 	}
 	
-	public synchronized List<String[]> getLastExtraction() {
+	public List<String[]> getLastExtraction() {
 		if (actualExtractionCount < 0) {
 			throw new RuntimeException("Non riesco ad estrarre l'estrazione: count number non valido (-1)");
 		}
@@ -67,17 +67,17 @@ public class ExplorerManager extends AbstractManager {
 		return ExtractionsExplorer.getInstance().getExtraction(date);
 	}
 
-//	/**
-//	 * 
-//	 * @param extrNum
-//	 *            the extraction number from 1 to N
-//	 * @return a list of 11 elements (ruote) containing an array of 5 (numbers)
-//	 */
-//	private List<String[]> getExtractionByNum(int extrNum) {
-////		int n = DatesManager.getInstance().getDatesLen() - extrNum;
-//		int n = StorageManager.getInstance().getNumberOfExtractions() - extrNum;
-//		String date = DatesManager.getInstance().getDate(n);
-//		return ExtractionsExplorer.getInstance().getExtraction(date);
-//	}
+	/**
+	 * 
+	 * @param extrNum
+	 *            the extraction number from 1 to N
+	 * @return a list of 11 elements (ruote) containing an array of 5 (numbers)
+	 */
+	private List<String[]> getExtractionByNum(int extrNum) {
+//		int n = DatesManager.getInstance().getDatesLen() - extrNum;
+		int n = StorageManager.getInstance().getNumberOfExtractions() - extrNum;
+		String date = DatesManager.getInstance().getDate(n);
+		return ExtractionsExplorer.getInstance().getExtraction(date);
+	}
 
 }

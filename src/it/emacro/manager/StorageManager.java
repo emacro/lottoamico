@@ -3,11 +3,14 @@
  */
 package it.emacro.manager;
 
+import it.emacro.cache.DbCacher;
 import it.emacro.extractor.db.Extraction;
-import it.emacro.extractor.db.ExtractionsThreadLoader;
+import it.emacro.extractor.db.Extracts;
+import it.emacro.extractor.db.Number;
 import it.emacro.extractor.db.Ruota;
 import it.emacro.extractor.db.Storage;
 import it.emacro.log.Log;
+import it.emacro.util.Messenger;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -22,21 +25,18 @@ public class StorageManager extends AbstractManager {
 
 	private static StorageManager instance;
 
-	private Storage storage = new Storage();
+	private Storage storage;
 
-	private Map<String, Extraction> map = new Hashtable<String, Extraction>();
-
-	private int numberOfExtractions;
+	private DbCacher cacher;
 	
+	private Map<String,Extraction> map;
+
 	private StorageManager() {
 		super();
-		initialize();
-		ExtractionsThreadLoader.loadExtractionsInBackground(storage, map);
-	}
-
-	/** load extractions into the database */
-	private void initialize() {
-		numberOfExtractions = storage.getNumberOfExtractions();
+		map = new Hashtable<String,Extraction>();
+		loadCacher();
+		synchronizeDbElems();
+		mapExtractions();
 	}
 
 	public static StorageManager getInstance() {
@@ -49,10 +49,6 @@ public class StorageManager extends AbstractManager {
 		}
 		return instance;
 	}
-	
-	public Storage getStorage() {
-		return storage;
-	}
 
 	/**
 	 * 
@@ -60,39 +56,110 @@ public class StorageManager extends AbstractManager {
 	 *            the extraction date in format yyyy-MM-dd
 	 * @return Extraction object
 	 */
-	public synchronized Extraction getExtraction(String date) {
-		if (!map.containsKey(date)) {
-			insertNewExtractionIntoMap(date);
-//			Log.println(date + " inserita.");
-		}else{
-//			Log.println(date + " gia' esistente in memoria.");
-		}
+	public Extraction getExtraction(String date) {
 		return map.get(date);
 	}
 	
-	private void insertNewExtractionIntoMap(String date) {
-		Extraction extraction = storage.getExtraction(date);
-		map.put(extraction.getDate(), extraction);
-	}
-
-	public synchronized int getNumberOfExtractions() {
-		return numberOfExtractions; // map.size();
+	public int getNumberOfExtractions() {
+		return map.size();
 	}
 	
-	public synchronized boolean contains(Extraction extraction) {
+	public boolean contains(Extraction extraction) {
 		return map.containsValue(extraction);
 	}
 	
-	public synchronized boolean containDate(String date) {
+	public boolean containDate(String date) {
 		return map.containsKey(date);
 	}
 
-	public synchronized String[] getRuoteNames() {
+	public String[] getRuoteNames() {
 		List<String> list = new ArrayList<String>();
-		for (Ruota r : storage.getRuote()) {
+		for (Ruota r : cacher.getRuote()) {
 			list.add(r.getName());
 		}
 		return list.toArray(new String[list.size()]);
+	}
+
+	/**
+	 * synchronize all DB objects data
+	 * 
+	 */
+	private void synchronizeDbElems() {
+
+		List<Number> listN = new ArrayList<Number>();
+		List<Ruota> listR = new ArrayList<Ruota>();
+		Ruota r;
+
+//		Log.println("starting DB objects synchronize...");
+		Log.println(Messenger.getInstance().getMessage("starting.db.objects.synchronize"));
+
+		int idx = 0;
+		for (Number number : cacher.getNumbers()) {
+			listN.add(number);
+			idx++;
+			if (idx % 5 == 0) {
+				cacher.getExtracts()[idx / 5 - 1].setNumbers(listN
+						.toArray(new Number[listN.size()]));
+				listN.clear();
+			}
+		}
+
+		idx = 0;
+		for (Extracts extractS : cacher.getExtracts()) {
+			r = new Ruota();
+			r.setExtracts(extractS);
+			listR.add(r);
+			idx++;
+			if (idx % 11 == 0) {
+				cacher.getExtractions()[idx / 11 - 1].setRuote(listR
+						.toArray(new Ruota[listR.size()]));
+				listR.clear();
+			}
+		}
+//		Log.println("DB objects are synchronized");
+		Log.println(Messenger.getInstance().getMessage("db.objects.are.synchronized"));
+	}
+
+	/**
+	 * create a map with key: the date of the extraction and value: the
+	 * extraction object
+	 * 
+	 */
+	private void mapExtractions() {
+
+//		Log.println("mapping extractions...");
+		Log.println(Messenger.getInstance().getMessage("mapping.extractions"));
+
+		for (Extraction e : cacher.getExtractions()) {
+			map.put(e.getDate(), e);
+		}
+
+//		Log.println("extractions are mapped");
+		Log.println(Messenger.getInstance().getMessage("extractions.are.mapped"));
+		
+	}
+
+	private void loadCacher() {
+		storage = new Storage();
+		cacher = DbCacher.getInstance();
+//		Log.println("start to load DB data into memory");
+		Log.println(Messenger.getInstance().getMessage("start.to.load.db.data.into.memory"));
+
+//		Log.println("loading table extractions...");
+		Log.println(Messenger.getInstance().getMessage("loading.table.extractions"));
+		cacher.setExtractions(storage.getExtractions());
+//		Log.println("loading table ruote...");
+		Log.println(Messenger.getInstance().getMessage("loading.table.ruote"));
+		cacher.setRuote(storage.getRuote());
+//		Log.println("loading table extracts...");
+		Log.println(Messenger.getInstance().getMessage("loading.table.extracts"));
+		cacher.setExtracts(storage.getExtracts());
+//		Log.println("loading table numbers...");
+		Log.println(Messenger.getInstance().getMessage("loading.table.numbers"));
+		cacher.setNumbers(storage.getNumbers());
+
+//		Log.println("DB data has been right loaded");
+		Log.println(Messenger.getInstance().getMessage("db.data.has.been.right.loaded"));
 	}
 
 }

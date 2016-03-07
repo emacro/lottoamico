@@ -1,6 +1,10 @@
+/**
+ * 
+ */
 package it.emacro.manager;
 
 import it.emacro.cache.DatesCacher;
+import it.emacro.extractor.db.Storage;
 
 /**
  * @author Emc
@@ -40,7 +44,7 @@ public class DatesManager extends AbstractManager {
 	
 	private void cacheDates(){
 		if (DatesCacher.getInstance().getNumberOfCashed() == 0) {
-			String[] dates = StorageManager.getInstance().getStorage().getAllExtractionDates();
+			String[] dates = new Storage().getAllExtractionDates();
 			for (int ii = 0; ii < dates.length; ii++) {
 				DatesCacher.getInstance().addDate(ii, dates[ii]);
 			}

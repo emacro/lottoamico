@@ -39,7 +39,7 @@ public class ExitStorer {
     }
 	
 	private Window window;
-	private String path = ApplicationData.getInstance().getApplicationRoot() + "config/application.properties";
+	private String path = ApplicationData.getInstance().getWebroot() + "WEB-INF/config/application.properties";
 	private Properties properties = PropertyLoader.getPropertiesOrEmpty(path);
 
 	public void store() {
@@ -72,7 +72,7 @@ public class ExitStorer {
 		} catch (Exception e) {
 			Log.println("ExitStorer: cannot store aplication properties");
 //			Log.println(Messenger.getInstance().getMessage(""));
-			Log.print(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -80,7 +80,7 @@ public class ExitStorer {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE, d MMMMM yyyy HH.mm");
 		Date date = Calendar.getInstance().getTime();
-		properties.setProperty("last.appllication.use", dateFormat.format(date).replace('ï¿½','i'));
+		properties.setProperty("last.appllication.use", dateFormat.format(date).replace('ì','i'));
 		
 	}
 	
@@ -103,7 +103,7 @@ public class ExitStorer {
 		} catch (Exception e) {
 			Log.println("ExitStorer: cannot store aplication properties");
 //			Log.println(Messenger.getInstance().getMessage(""));
-			Log.print(e);
+			e.printStackTrace();
 		}
 	}
 
