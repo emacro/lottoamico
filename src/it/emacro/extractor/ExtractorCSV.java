@@ -41,7 +41,7 @@ public class ExtractorCSV implements Extractor {
 	}
 
 	public void extract(File source, File destination) throws Exception {
-		String[] unparsedLines = null;
+		List<String> unparsedLines = null;
 		String[] parsedLines = null;
 		String date = null, number;
 		List<String> extrList;

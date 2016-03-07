@@ -12,6 +12,7 @@ import it.emacro.log.LogFile;
 import it.emacro.util.Constants;
 import it.emacro.util.ExtractionsDbLoader;
 import it.emacro.util.Messenger;
+import it.emacro.zip.Zipper;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -28,7 +29,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Application implements Constants {
 
 	private static final String PROP_DIR = "WEB-INF/config/application.properties";
-	private static final String DB_DIR   = "../DB";
+	private static final String DB_DIR   = "/DB";
 	/**
 	 * @throws Exception
 	 * 
@@ -65,6 +66,7 @@ public class Application implements Constants {
 			setExtractionsFileURL(properties);
 			setExtractionsFilePath(properties);
 			setExtractionsFileName(properties);
+			setExtractorImplementation(properties);
 			loadNewExtractionsIntoDB(settings.startDownloadExtractionsFile, settings.startDbLoader);
 			setMainWindowDimension(properties);
 			startGui(settings.setSystemLookAndFeel);
@@ -82,8 +84,11 @@ public class Application implements Constants {
 	// ----------------- private methods ------------------
 	
 	private void startDB() {
-		String[] args = {"-tcp", "-tcpPort", "9919", "-web", "-webPort", "8083", "-baseDir", DB_DIR};
-		String message = "\nPosizione files del database: " + new File(DB_DIR).getAbsolutePath();
+		
+		String developPath = System.getProperty("developPath", null);
+		String dbDirectory = developPath != null? (developPath + ".." + DB_DIR) : (".." + DB_DIR); 
+		String[] args = {"-tcp", "-tcpPort", "9919", "-web", "-webPort", "8083", "-baseDir", dbDirectory};
+		String message = "\nPosizione files del database: " + dbDirectory;
 		try {
 			org.h2.tools.Server.main(args);
 			System.out.println(message);
@@ -133,7 +138,7 @@ public class Application implements Constants {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-//				Zipper.unzip(fn);
+				if(fn != null && fn.endsWith(".zip")) Zipper.unzip(fn);
 			}
 
 		}
@@ -231,6 +236,12 @@ public class Application implements Constants {
 		if(force){
 			Log.println(Messenger.getInstance().getMessage("download.forcing.required"));
 		}
+	}
+	
+	private void setExtractorImplementation(Properties properties) {
+		String extractorImplementation = properties.getProperty("extractor.imlementation").trim();
+		ApplicationData.getInstance().setExtractorImplementation(extractorImplementation);
+		 
 	}
 
 	private Calendar getLastExtraction() {

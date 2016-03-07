@@ -1,98 +1,23 @@
-*** application started at: Sat Nov 21 08:31:30 CET 2015
+*** application started at: Sat Nov 21 19:15:29 CET 2015
 
 
 application root: C:\workspaces\workspace04\lotto_DB_project\WebContent\
 lingua settata a: italiano
-data dell'ultimo utilizzo: sabato, 21 novembre 2015 08.31
-data dell'ultima estrazione: 2015-11-07
-URL del file delle estrazioni: http://www.estrazionidellotto.com/estrazionidellotto.csv
-percorso del file estrazioni: C:\workspaces\workspace04\lotto_DB_project\WebContent\WEB-INF/extractions/estrazionidellotto.csv
-nome del file delle estrazioni: estrazionidellotto.csv
+data dell'ultimo utilizzo: sabato, 21 novembre 2015 19.15
+e' stata richiesta una forzatura del download
+data dell'ultima estrazione: 2015-11-19
+URL del file delle estrazioni: http://www.lottomaticaitalia.it/lotto/doc/archivio/storico.zip
+percorso del file estrazioni: C:\workspaces\workspace04\lotto_DB_project\WebContent\WEB-INF/extractions/storico.txt
+nome del file delle estrazioni: storico.txt
 download del file delle estrazioni da internet...
-il download di estrazionidellotto.csv da internet e' ANDATO BENE
+il download di storico.zip da internet e' ANDATO BENE
+decompresso file: storico.txt
 caricamento delle estrazioni dal file al database...
-scansione anno: 1939
-scansione anno: 1940
-scansione anno: 1941
-scansione anno: 1942
-scansione anno: 1943
-scansione anno: 1944
-scansione anno: 1945
-scansione anno: 1946
-scansione anno: 1947
-scansione anno: 1948
-scansione anno: 1949
-scansione anno: 1950
-scansione anno: 1951
-scansione anno: 1952
-scansione anno: 1953
-scansione anno: 1954
-scansione anno: 1955
-scansione anno: 1956
-scansione anno: 1957
-scansione anno: 1958
-scansione anno: 1959
-scansione anno: 1960
-scansione anno: 1961
-scansione anno: 1962
-scansione anno: 1963
-scansione anno: 1964
-scansione anno: 1965
-scansione anno: 1966
-scansione anno: 1967
-scansione anno: 1968
-scansione anno: 1969
-scansione anno: 1970
-scansione anno: 1971
-scansione anno: 1972
-scansione anno: 1973
-scansione anno: 1974
-scansione anno: 1975
-scansione anno: 1976
-scansione anno: 1977
-scansione anno: 1978
-scansione anno: 1979
-scansione anno: 1980
-scansione anno: 1981
-scansione anno: 1982
-scansione anno: 1983
-scansione anno: 1984
-scansione anno: 1985
-scansione anno: 1986
-scansione anno: 1987
-scansione anno: 1988
-scansione anno: 1989
-scansione anno: 1990
-scansione anno: 1991
-scansione anno: 1992
-scansione anno: 1993
-scansione anno: 1994
-scansione anno: 1995
-scansione anno: 1996
-scansione anno: 1997
-scansione anno: 1998
-scansione anno: 1999
-scansione anno: 2000
-scansione anno: 2001
-scansione anno: 2002
-scansione anno: 2003
-scansione anno: 2004
-scansione anno: 2005
-scansione anno: 2006
-scansione anno: 2007
-scansione anno: 2008
-scansione anno: 2009
-scansione anno: 2010
-scansione anno: 2011
-scansione anno: 2012
-scansione anno: 2013
-scansione anno: 2014
-scansione anno: 2015
-
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 Sono state inserite 0 nuove estrazioni nel database
 tempo elaborazione: 0:00:17
 il caricamento dei dati e' terminato correttamente
-cancellato estrazionidellotto.csv
+cancellato storico.txt
 
 caricamento dei dati del database in memoria
 caricamento tabella delle estrazioni...
@@ -107,4 +32,4 @@ le estrazioni sono state mappate correttamente
 esecuzione dell'interfaccia grafica...
 
 
-*** application closed at: Sat Nov 21 08:31:59 CET 2015
+*** application closed at: Sat Nov 21 19:18:56 CET 2015

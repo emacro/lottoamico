@@ -1,31 +1,28 @@
-/**
- * 
- */
-package it.emacro.extractor;
-
-import it.emacro.extractor.db.ConnectionPool;
-import it.emacro.extractor.db.QueryCreator;
-import it.emacro.extractor.util.FileUtils;
-//import it.emacro.extractor.util.Utils;
-import it.emacro.log.Log;
-import it.emacro.services.ApplicationData;
-import it.emacro.util.Messenger;
-import it.emacro.util.Utils;
+package it.emacro.extractor.lottomaticaitalia;
 
 import java.io.File;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-/**
- * @author Emc
- * 
- */
-public class ExtractorTXT implements Extractor {
+import it.emacro.extractor.Extractor;
+import it.emacro.extractor.db.ConnectionPool;
+import it.emacro.extractor.db.QueryCreator;
+import it.emacro.extractor.util.FileUtils;
+import it.emacro.log.Log;
+import it.emacro.services.ApplicationData;
+import it.emacro.util.Messenger;
+import it.emacro.util.RuoteUtils;
+import it.emacro.util.RuoteUtils.Ordinator;
+import it.emacro.util.RuoteUtils.SimpleRuota;
+import it.emacro.util.Utils;
 
-	private String anno = "1900";
+public class ArchivioStoricoExtractor implements Extractor {
 
-	public ExtractorTXT() {
+	public ArchivioStoricoExtractor() {
 		super();
 	}
 
@@ -55,13 +52,11 @@ public class ExtractorTXT implements Extractor {
 	 */
 	public void extract(File source, File destination) throws Exception {
 		List<String> unparsedLines = null;
-		String[] parsedLines = null;
-		String date = null, number;
-		List<String> extrList;
-		List<String> list = null;
+		String date = null;
+		List<String> extrList = null, list = null;
 		Connection conn = null;
-		long queryCounter = 0;
-		long time = System.currentTimeMillis();
+		Ordinator ordinator = null;
+		long queryCounter = 0, time = System.currentTimeMillis();
 		boolean writeInFile = destination != null;
 
 		try {
@@ -82,24 +77,22 @@ public class ExtractorTXT implements Extractor {
 				return;
 			}
 
-			for (String line : unparsedLines) {
-				extrList = new ArrayList<String>();
-
-				if (line == null || line.isEmpty()) {
-					continue;
+			Map<String, Ordinator> packages = getExtractionsAsPackages(unparsedLines);
+			
+			int counter = 0;
+			
+			for (Entry<String, Ordinator> entry : packages.entrySet()) {
+				
+//				Log.print(Messenger.getInstance().getMessage("storing.year"));
+				if( ((counter++)%100) == 0 ){
+					Log.print("|");
 				}
-
-				parsedLines = splitAndParseLine(line);
-
-				date = parsedLines[0];
-				number = parsedLines[1];
-				for (int ii = 2; ii < 57; ii++) {
-
-					extrList.add(parsedLines[ii]);
-				}
-
-				String[] queries = QueryCreator.createInsertQueries(date,
-						number, extrList, conn);
+				
+				date = entry.getKey();
+				ordinator = entry.getValue();
+				extrList = RuoteUtils.getNumbersFromOrdinator(ordinator);
+			 
+				String[] queries = QueryCreator.createInsertQueries(date, "0", extrList, conn);
 
 				if (queries == null || queries.length == 0)
 					continue;
@@ -153,32 +146,47 @@ public class ExtractorTXT implements Extractor {
 //		Log.println("\nDB loading is termined ok");
 		Log.println(Messenger.getInstance().getMessage("db.loading.is.termined.ok"));
 	}
+ 
+	private Map<String, Ordinator> getExtractionsAsPackages(List<String> unparsedLines) {
+		
+		Map<String, Ordinator> res = new LinkedHashMap<String, Ordinator>();
+		SimpleRuota simpleRuota = null; Ordinator ordinator = null;
+		String[] splitted; String date,ruota,first,second,third,fourth,fifth;
+		
+		for (String line : unparsedLines) {
+			
+			try {
+				splitted = line.split("\\s");
+				date = splitted[0].replace("/", "-");
+				ruota = splitted[1];
+				first = splitted[2];
+				second = splitted[3];
+				third = splitted[4];
+				fourth = splitted[5];
+				fifth = splitted[6];
 
-	private String[] splitAndParseLine(String line) {
+				simpleRuota = 
+						RuoteUtils.getNewSimpleRuota(ruota, first, second, third, fourth, fifth);
 
-		String[] result = line.split(" ");
-		result[0] = parseDate(result[0]);
+				if(!res.containsKey(date)){
+					res.put(date, RuoteUtils.getNewOrdinator());
+				}
+				ordinator = res.get(date);
+				ordinator.add(simpleRuota);
 
-		if (!anno.equals(result[0].substring(0, 4))) {
-			Log.print(Messenger.getInstance().getMessage("storing.year"));
-			Log.println(result[0].substring(0, 4));
-			anno = result[0].substring(0, 4);
+			} catch (Exception e) {
+				Log.println("Cannot parse line: " + line, e);
+			}
+			
 		}
-
-		return result;
+		return res;
 	}
-
-	private String parseDate(String date) {
-		String year;
-		String month;
-		String day;
-
-		day = date.substring(0, 2);
-		month = date.substring(3, 5);
-		year = date.substring(6);
-
-		return new StringBuffer(year).append("-").append(month).append("-")
-				.append(day).toString();
+	
+	public static void main(String[] args) {
+		String pipes = "|"; int counter = 0;
+		for (int i = 0; i < (5000 * 11 ); i++) {
+			System.out.print( ( ((counter++)%5) == 0 ) ? ("|") : "" );
+		}
 	}
 
 }

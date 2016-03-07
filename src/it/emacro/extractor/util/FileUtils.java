@@ -56,7 +56,7 @@ public class FileUtils {
 		}
 	}
 
-	public static String[] readFile(File file) {
+	public static List<String> readFile(File file) {
 		List<String> list = new ArrayList<String>();
 		BufferedReader bufRead = null;
 		FileReader input = null;
@@ -112,7 +112,7 @@ public class FileUtils {
 			}
 		}
 
-		return list.toArray(new String[list.size()]);
+		return list;
 	}
 
 	public static List<File> getFiles(String dirname, final String extension) {

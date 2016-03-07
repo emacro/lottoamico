@@ -42,12 +42,19 @@ public class Main {
 	}
 
 	private static String getRootPath(){
-        // lo script che lo lancia DEVE ESSERE in lotto/WebContent/WEB-INF/script
-		// altrimenti l'applicazione da' un errore all'apertura
-		File here = new File(".");
-		String rootName = "WebContent";
-		int idx = here.getAbsolutePath().indexOf(rootName) + rootName.length();
-		return here.getAbsolutePath().substring(0, idx + 1);
+
+		String developPath = System.getProperty("developPath", null);
+		if(developPath != null){
+			return developPath;
+		}
+		else{
+			// lo script che lo lancia DEVE ESSERE in lotto/WebContent/WEB-INF/script
+			// altrimenti l'applicazione da' un errore all'apertura
+			File here = new File(".");
+			String rootName = "WebContent";
+			int idx = here.getAbsolutePath().indexOf(rootName) + rootName.length();
+			return here.getAbsolutePath().substring(0, idx + 1);
+		}
 	}
 	
 	private static String getDevelopingRootPath(){

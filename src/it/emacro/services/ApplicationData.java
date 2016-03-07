@@ -29,6 +29,7 @@ public class ApplicationData {
     private String language;
     private boolean forceExtractionReading;
     private Dimension mainWindowDimension;
+	private String extractorImplementation;
 
     //private User user;
 
@@ -136,5 +137,12 @@ public class ApplicationData {
 		this.forceExtractionReading = forceExtractionReading;
 	}
 
+	public void setExtractorImplementation(String extractorImplementation) {
+		this.extractorImplementation = extractorImplementation;
+	}
+
+	public String getExtractorImplementation() {
+		return extractorImplementation;
+	}
 
 }

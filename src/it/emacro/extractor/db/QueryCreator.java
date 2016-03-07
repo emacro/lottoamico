@@ -34,13 +34,11 @@ public class QueryCreator {
 		}
 		
 		if (extracts.size() < 55) {
-			throw new Exception("Insufficient number of extracts: "
-					+ extracts.size() + "/55");
+			throw new Exception("Insufficient number of extracts: " + extracts.size() + "/55");
 		}
 
 		sb = new StringBuffer("insert into extractions (date,number) values (");
-		sb.append("date'").append(date).append("'").append(",").append(number)
-				.append(");");
+		sb.append("date'").append(date).append("'").append(",").append(number).append(");");
 
 		rs = conn.createStatement().executeQuery("select max(id) from extractions");
 		
