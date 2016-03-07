@@ -1,0 +1,35 @@
+*** application started at: Mon Mar 07 17:07:42 CET 2016
+
+
+application root: C:\Users\Emanuele\Documents\lottoamico\WebContent\
+lingua settata a: italiano
+data dell'ultimo utilizzo: domenica, 6 marzo 2016 17.34
+e' stata richiesta una forzatura del download
+data dell'ultima estrazione: 2016-03-05
+URL del file delle estrazioni: http://www.lottomaticaitalia.it/lotto/doc/archivio/storico.zip
+percorso del file estrazioni: C:\Users\Emanuele\Documents\lottoamico\WebContent\WEB-INF/extractions/storico.txt
+nome del file delle estrazioni: storico.txt
+download del file delle estrazioni da internet...
+il download di storico.zip da internet e' ANDATO BENE
+decompresso file: storico.txt
+caricamento delle estrazioni dal file al database...
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sono state inserite 5587 nuove estrazioni nel database
+tempo elaborazione: 0:00:37
+il caricamento dei dati e' terminato correttamente
+cancellato storico.txt
+
+caricamento dei dati del database in memoria
+caricamento tabella delle estrazioni...
+caricamento tabella delle ruote...
+caricamento tabella degli estratti...
+caricamento tabella dei numeri...
+dati del database caricati correttamente
+sincronizzazione degli oggetti del database...
+oggetti del database sincronizzati
+mappaggio delle estrazioni...
+le estrazioni sono state mappate correttamente
+esecuzione dell'interfaccia grafica...
+
+
+*** application closed at: Mon Mar 07 17:15:47 CET 2016
