@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+
+	<display-name>Lotto</display-name>
+	<description>lotto application</description>
+
+	<listener>
+		<display-name>Service Starter</display-name>
+		<listener-class>
+			it.emacro.servlet.ServiceStarter
+		</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>TestServlet</servlet-name>
+		<servlet-class>it.emacro.servlet.TestServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>TestServlet</servlet-name>
+		<url-pattern>/provider</url-pattern>
+	</servlet-mapping>
+
+	<taglib>
+		<taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+		<taglib-location>/WEB-INF/tlds/c.tld</taglib-location>
+	</taglib>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+</web-app>
