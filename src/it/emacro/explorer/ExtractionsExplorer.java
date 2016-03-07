@@ -10,6 +10,8 @@ import it.emacro.manager.StorageManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Emc
@@ -18,6 +20,8 @@ import java.util.List;
 public class ExtractionsExplorer {
 
 	private static ExtractionsExplorer instance = null;
+	
+	private static Logger logger = Logger.getLogger(ExtractionsExplorer.class.getName());
 
 	private ExtractionsExplorer() {
 		super();
@@ -54,7 +58,7 @@ public class ExtractionsExplorer {
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			logger.log(Level.SEVERE, String.format("Errore in fase di parsing per l'estrazione: %s ", extraction), e);
 		}
  
 		return list;

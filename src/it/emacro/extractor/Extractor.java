@@ -39,7 +39,6 @@ public interface Extractor {
 	 *            dest path file
 	 * @throws Exception
 	 */
-	public abstract void extract(File source, File destination)
-			throws Exception;
+	public abstract void extract(File source, File destination) throws Exception;
 
 }

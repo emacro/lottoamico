@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.emacro.extractor.Extractor;
 import it.emacro.extractor.db.ConnectionPool;
@@ -21,6 +23,8 @@ import it.emacro.util.RuoteUtils.SimpleRuota;
 import it.emacro.util.Utils;
 
 public class ArchivioStoricoExtractor implements Extractor {
+
+	private static Logger logger = Logger.getLogger(ArchivioStoricoExtractor.class.getSimpleName());
 
 	public ArchivioStoricoExtractor() {
 		super();
@@ -77,7 +81,15 @@ public class ArchivioStoricoExtractor implements Extractor {
 				return;
 			}
 
-			Map<String, Ordinator> packages = getExtractionsAsPackages(unparsedLines);
+			
+			Map<String, Ordinator> packages = null;
+			
+			try {
+				packages = getExtractionsAsPackages(unparsedLines);
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, "Application has stopped the 'extrax action' due an error (maybe in file?)", e);
+				throw new Exception();
+			}
 			
 			int counter = 0;
 			
@@ -147,7 +159,7 @@ public class ArchivioStoricoExtractor implements Extractor {
 		Log.println(Messenger.getInstance().getMessage("db.loading.is.termined.ok"));
 	}
  
-	private Map<String, Ordinator> getExtractionsAsPackages(List<String> unparsedLines) {
+	private Map<String, Ordinator> getExtractionsAsPackages(List<String> unparsedLines) throws Exception {
 		
 		Map<String, Ordinator> res = new LinkedHashMap<String, Ordinator>();
 		SimpleRuota simpleRuota = null; Ordinator ordinator = null;
@@ -175,7 +187,9 @@ public class ArchivioStoricoExtractor implements Extractor {
 				ordinator.add(simpleRuota);
 
 			} catch (Exception e) {
-				Log.println("Cannot parse line: " + line, e);
+				//				Log.println("Cannot parse line: " + line, e);
+				logger.log(Level.SEVERE, String.format("Cannot parse line: %s", line), e);
+				throw new Exception();
 			}
 			
 		}

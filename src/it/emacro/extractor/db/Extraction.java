@@ -3,6 +3,8 @@
  */
 package it.emacro.extractor.db;
 
+import java.util.Arrays;
+
 /**
  * @author Emc
  * 
@@ -61,6 +63,12 @@ public class Extraction {
 
 	public void setRuote(Ruota[] ruote) {
 		this.ruote = ruote;
+	}
+
+	@Override
+	public String toString() {
+		return "Extraction [id=" + id + ", number=" + number + ", date=" + date
+				+ ", ruote=" + Arrays.toString(ruote) + "]";
 	}
 
 }
