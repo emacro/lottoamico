@@ -1,0 +1,1 @@
+start ant clean, create_zip_distribution

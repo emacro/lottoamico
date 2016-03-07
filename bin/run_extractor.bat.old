@@ -1,0 +1,6 @@
+@echo off
+
+java -Xmx500M -Xms256M -cp "../classes;../libs/commons-dbcp-1.2.1.jar;../libs/commons-pool-1.3.jar;../libs/h2.jar" it.emacro.extractor.Main %1
+
+
+pause

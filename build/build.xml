@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<!--
+	  Author: Emanuele Crocilla'
+	  date:   03/01/09
+-->
+
+<project name="Lotto_amico" default="create_both_distributions" basedir="..">
+
+	<tstamp>
+		<format property="DIST_NAME" pattern="yyyyMMdd_HHmm" />
+	</tstamp>
+
+	<property file="build/libraries.properties" />
+
+	<!-- compilation classes in project... -->
+	<target name="compile">
+		<echo message="compiling classes..." />
+		<javac srcdir="src" destdir="${CLASSPATH}" classpath="${LIBS}" />
+	</target>
+
+	<target name="create_both_distributions" depends="compile">
+		<antcall target="create_normal_distribution" />
+		<echo message="creating zip distributinon file ${DIST_NAME}.zip..." />
+		<zip destfile="dist/lotto_amico_${DIST_NAME}.zip" basedir="dist/lotto_amico_${DIST_NAME}" />
+	</target>
+
+	<target name="create_normal_distribution" depends="compile">
+		<echo message="creating distribution ${DIST_NAME}..." />
+		<!-- directories creation -->
+		<mkdir dir="dist/lotto_amico_${DIST_NAME}/WebContent" />
+		<mkdir dir="dist/lotto_amico_${DIST_NAME}/DB" />
+		<mkdir dir="dist/lotto_amico_${DIST_NAME}/bin" />
+		<mkdir dir="dist/lotto_amico_${DIST_NAME}/java" />
+		<!-- copy of files -->
+		<copy todir="dist/lotto_amico_${DIST_NAME}/WebContent">
+			<fileset dir="WebContent" includes="**/*" />
+		</copy>
+		<copy todir="dist/lotto_amico_${DIST_NAME}/DB">
+			<fileset dir="DB" includes="**/*" />
+		</copy>
+		<copy file="bin/run_lotto.bat" todir="dist/lotto_amico_${DIST_NAME}/bin" />
+		<copy todir="dist/lotto_amico_${DIST_NAME}/java">
+			<fileset dir="java" includes="**/*" />
+		</copy>
+		<antcall target="make_readme_file" />
+	</target>
+
+	<target name="make_readme_file" depends="compile">
+		<echo message="creating readme file for the ${DIST_NAME}..." />
+		<java classpath="${CLASSPATH}" classname="it.emacro.util.MakeFile" fork="true">
+			<!-- arg value="dist/lotto_amico_${DIST_NAME}/testfile.txt" / -->
+			<arg value="dist/lotto_amico_${DIST_NAME}/readme.txt" />
+			<arg value="Distribution name: ${DIST_NAME}" />
+			<arg value="DB version" />
+			<arg value=" " />
+			<arg value="instructions:" />
+			<arg value="1) use 'bin/run_lotto.bat' to start the application" />
+			<arg value="2) enjoy that ;-)" />
+		</java>
+	</target>
+
+	<target name="create_zip_distribution" depends="create_normal_distribution">
+		<echo message="creating zip distributinon ${DIST_NAME}.zip..." />
+		<zip destfile="dist/lotto_amico_${DIST_NAME}.zip" basedir="dist/lotto_amico_${DIST_NAME}" />
+		<delete dir="dist/lotto_amico_${DIST_NAME}" />
+	</target>
+
+	<!-- cancellazione file .class in project... -->
+	<target name="clean">
+		<echo message="deleting .class files..." />
+		<delete>
+			<!-- fileset dir="WebContent/WEB-INF/classes" includes="**/*.class" / -->
+			<fileset dir="${CLASSPATH}" includes="**/*" />
+		</delete>
+	</target>
+
+	<target name="create_javadoc">
+		<delete includeemptydirs="true">
+			<fileset dir="docs/api" includes="**/*" />
+		</delete>
+		<javadoc destdir="docs/api" author="true" version="true" use="true" windowtitle="Lotto amico API">
+			<packageset dir="src" defaultexcludes="yes">
+				<include name="it/**/*" />
+				<exclude name="test" />
+			</packageset>
+			<doctitle>
+				<![CDATA[<h1>Lotto amico 2.0</h1>]]>
+			</doctitle>
+			<bottom>
+				<![CDATA[<i>Copyright &#169; 2009 Emacro. Not All Rights Are Reserved. ;-)</i>]]>
+			</bottom>
+			<tag name="todo" scope="all" description="To do:" />
+			<link offline="true" href="http://java.sun.com/j2se/1.6.0/docs/api/" packagelistLoc="C:\tmp" />
+			<link href="http://developer.java.sun.com/developer/products/xml/docs/api/" />
+		</javadoc>
+	</target>
+</project>

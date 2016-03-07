@@ -1,0 +1,15 @@
+L'ultimo numero delle quartine e' l'ambata principale.
+I numeri sono da giocare per massimo 9 estrazioni.
+
+Bari, Torino  24.39.29.14   (15 - 10)
+Bari, Nazionale  87.62.71.6   (25 - 9)
+Cagliari, Torino  76.17.80.49   (31 - 27)
+Genova, Roma  74.42.84.26   (32 - 42)
+Genova, Torino  2.33.80.49   (31 - 43)
+Milano, Roma  84.52.84.26   (32 - 32)
+Milano, Napoli  2.73.62.81   (19 - 11)
+Napoli, Venezia  34.62.65.37   (28 - 3)
+Napoli, Roma  81.24.26.83   (33 - 2)
+Roma, Nazionale  26.83.40.73   (33 - 43)
+Torino, Venezia  77.80.68.65   (3 - 12)
+
