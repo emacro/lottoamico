@@ -3,6 +3,8 @@
  */
 package it.emacro.extractor;
 
+import it.emacro.log.Log;
+
 /**
  * @author Emc
  *
@@ -36,7 +38,7 @@ public class Main {
 			new Extractor().extract(INPUT_FILE_FOLDER + fileName,
 									INPUT_FILE_FOLDER + "out_" + fileName);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.print(e);
 		}
 	}
 

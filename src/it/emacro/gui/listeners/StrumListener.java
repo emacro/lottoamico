@@ -6,6 +6,7 @@ package it.emacro.gui.listeners;
 import it.emacro.distances.CouplesHandler;
 import it.emacro.extractor.util.FileUtils;
 import it.emacro.gui.components.FrequencyWindow;
+import it.emacro.log.Log;
 import it.emacro.services.ApplicationData;
 import it.emacro.util.Constants;
 
@@ -14,7 +15,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -77,7 +77,7 @@ public class StrumListener implements ActionListener {
 				mess = "A causa di un'errore non e' stato possibile salvare l'esito del calcolo" +
 				"\n controllare l'eccezione nella console.";
 				JOptionPane.showMessageDialog(null, mess, "Errore", JOptionPane.INFORMATION_MESSAGE);
-				e.printStackTrace();
+				Log.print(e);
 			}
 		}
 	}

@@ -3,6 +3,8 @@
  */
 package it.emacro.extractor.util;
 
+import it.emacro.log.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -43,7 +45,7 @@ public class FileUtils {
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.print(e);
 		} finally {
 			try {
 				out.close();
@@ -100,7 +102,7 @@ public class FileUtils {
 
 		} catch (IOException e) {
 			// If another exception is generated, print a stack trace
-			e.printStackTrace();
+			Log.print(e);
 		} finally {
 			try {
 				bufRead.close();

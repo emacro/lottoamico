@@ -29,8 +29,7 @@ public class DatePanel extends JPanel {
 		this.date = date;
 
 		setLayout(new FlowLayout(FlowLayout.CENTER));
-		cell = new Cell(" " + Utils.parseDate(date) + " ",
-				CustomFont.BIG_BOLD);
+		cell = new Cell(" " + Utils.parseDate(date) + " ", CustomFont.BIG_BOLD);
 		cell.setBackground(new Color(219,219,219));
 		cell.setForeground(new Color(255, 0, 0));
 		add(cell);

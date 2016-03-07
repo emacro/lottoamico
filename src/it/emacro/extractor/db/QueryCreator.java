@@ -23,7 +23,7 @@ public class QueryCreator {
 		List<String> list = new ArrayList<String>();
 		StringBuffer sb;
 		
-		ResultSet rs = conn.createStatement().executeQuery("select count(date) from extractions where date='" + date + "';");
+		ResultSet rs = conn.createStatement().executeQuery("select count(date) from extractions where date=PARSEDATETIME('" + date + "',  'yyyy-MM-dd');");
 		rs.next();
 		
 		int d = rs.getInt(1);
@@ -39,8 +39,7 @@ public class QueryCreator {
 		}
 
 		sb = new StringBuffer("insert into extractions (date,number) values (");
-		sb.append("date'").append(date).append("'").append(",").append(number)
-				.append(");");
+		sb.append("PARSEDATETIME('").append(date).append("',  'yyyy-MM-dd'), ").append(number).append(");");
 
 		rs = conn.createStatement().executeQuery("select max(id) from extractions");
 		

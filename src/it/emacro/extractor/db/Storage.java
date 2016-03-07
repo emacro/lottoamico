@@ -1,9 +1,8 @@
-/**
- * 
- */
 package it.emacro.extractor.db;
 
 import it.emacro.extractor.util.PropertyLoader;
+import it.emacro.log.Log;
+import it.emacro.services.ApplicationData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,84 +18,107 @@ import java.util.Properties;
  */
 public class Storage {
 
-	/**
-	 * 
-	 */
+	private Connection conn;
+	private PreparedStatement psExtraction;
+	private PreparedStatement psExtract;
+	private PreparedStatement psNumbers;
+	private PreparedStatement psRuote;
+	private PreparedStatement psDates;
+	private PreparedStatement psExtractionCount;
+
+	private Properties properties;
+
+
+	private List<Ruota> ruoteList = new ArrayList<Ruota>();
+	private List<String> datesList = new ArrayList<String>();
+
+
 	public Storage() {
 		super();
+		if (conn == null) {
+			try {
+				String path = ApplicationData.getInstance().getApplicationRoot() + "config/queries.properties";
+				properties = PropertyLoader.getPropertiesOrEmpty(path);
+				conn = ConnectionPool.getInstance().getConnection();
+
+				psExtraction = conn.prepareStatement(getQuery("select.extraction"));
+				psExtract = conn.prepareStatement(getQuery("select.extract"));
+				psNumbers = conn.prepareStatement(getQuery("select.numbers"));
+				psRuote = conn.prepareStatement(getQuery("sel.all.ruote"));
+				psDates = conn.prepareStatement(getQuery("sel.dates.extractions"));
+				//				psAllExtractions = conn.prepareStatement(getQuery("sel.all.extractions"));
+				psExtractionCount = conn.prepareStatement(getQuery("extractions.count"));
+
+			} catch (Exception e) {
+				ConnectionPool.getInstance().closeConnection(conn);
+				Log.print(e);
+			} 
+		}
 	}
 
-	public String[] getAllExtractionDates() {
-		List<String> dates = new ArrayList<String>();
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
+	public synchronized String[] getAllExtractionDates() {
 
-		try {
-
-			conn = ConnectionPool.getInstance().getConnection();
-
-			ps = conn.prepareStatement(getQuery("sel.dates.extractions"));
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				dates.add(rs.getString(1));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
+		if (datesList.isEmpty()) {
+			ResultSet rs = null;
+			try {
+				rs = psDates.executeQuery();
+				while (rs.next()) {
+					datesList.add(rs.getString(1));
+				}
+			} catch (Exception e) {
+				Log.print(e);
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						Log.print(e);
+					}
 				}
 			}
-
-			ConnectionPool.getInstance().closePreparedStatement(ps);
-			ConnectionPool.getInstance().closeConnection(conn);
 		}
-
-		return dates.toArray(new String[dates.size()]);
+		return datesList.toArray(new String[datesList.size()]);
 	}
 
-	public Ruota[] getRuote() {
-		List<Ruota> list = new ArrayList<Ruota>();
-		Connection conn = null;
-		PreparedStatement ps = null;
+	public synchronized Ruota[] getRuote() {
+
 		ResultSet rs = null;
 		Ruota ruota;
+		
+		List<Ruota> res;
 
-		try {
+		if (ruoteList.isEmpty()) {
+			try {
 
-			conn = ConnectionPool.getInstance().getConnection();
+				rs = psRuote.executeQuery();
 
-			ps = conn.prepareStatement(getQuery("sel.all.ruote"));
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				ruota = new Ruota(rs.getInt(1),rs.getString(2));
-				list.add(ruota);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
+				while (rs.next()) {
+					ruota = new Ruota(rs.getInt(1),rs.getString(2));
+					ruoteList.add(ruota);
+				}
+			} catch (Exception e) {
+				Log.print(e);
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						Log.print(e);
+					}
 				}
 			}
-
-			ConnectionPool.getInstance().closePreparedStatement(ps);
-			ConnectionPool.getInstance().closeConnection(conn);
+			return ruoteList.toArray(new Ruota[ruoteList.size()]);
+		}else{
+			res = new ArrayList<Ruota>();
+			for (Ruota r : ruoteList) {
+				res.add(new Ruota(r.getId(), r.getName()));
+			}
+			return res.toArray(new Ruota[res.size()]);
 		}
-
-		return list.toArray(new Ruota[list.size()]);
 	}
 
-	public List<String[]> getExtractionByDate(String date) {
+	@Deprecated
+	public synchronized List<String[]> getExtractionByDate(String date) {
 		Connection conn = null;
 		String query;
 		PreparedStatement ps = null;
@@ -122,13 +144,13 @@ public class Storage {
 				list.add(s.toArray(new String[s.size()]));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.print(e);
 		} finally {
 			if (rs != null) {
 				try {
 					rs.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					Log.print(e);
 				}
 			}
 
@@ -138,129 +160,98 @@ public class Storage {
 		return list;
 	}
 
-	public Extraction[] getExtractions() {
+	// --- new methods
 
-		List<Extraction> list = new ArrayList<Extraction>();
-		Connection conn = null;
-		PreparedStatement ps = null;
+	public synchronized int getNumberOfExtractions() {
 		ResultSet rs = null;
-		Extraction extraction;
+		int res = 0;
 
 		try {
+			rs = psExtractionCount.executeQuery();
+			rs.next();
+			res = rs.getInt(1);
 
-			conn = ConnectionPool.getInstance().getConnection();
-
-			ps = conn.prepareStatement(getQuery("sel.all.extractions"));
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				extraction = new Extraction(rs.getInt(1),rs.getString(2),rs.getInt(3));
-				list.add(extraction);
-			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.print(e);
 		} finally {
 			if (rs != null) {
 				try {
 					rs.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					Log.print(e);
 				}
 			}
-
-			ConnectionPool.getInstance().closePreparedStatement(ps);
-			ConnectionPool.getInstance().closeConnection(conn);
 		}
-
-		return list.toArray(new Extraction[list.size()]);
-	
+		return res;
 	}
 
-	public Extracts[] getExtracts() {
-
-		List<Extracts> list = new ArrayList<Extracts>();
-		Connection conn = null;
-		PreparedStatement ps = null;
+	public synchronized Extraction getExtraction(String date) {
 		ResultSet rs = null;
-		Extracts extract;
+		Extraction extraction = null;
+
+//		long now = System.currentTimeMillis();
+//		long now2 = System.currentTimeMillis();
 
 		try {
 
-			conn = ConnectionPool.getInstance().getConnection();
-
-			ps = conn.prepareStatement(getQuery("sel.all.extracts"));
-			rs = ps.executeQuery();
-
+			psExtraction.setString(1, date);
+			rs = psExtraction.executeQuery();
+			
+//			Log.println("query psExtraction eseguita in: " +  ((System.currentTimeMillis() - now) / 1000) + " seconds." );
+//			now = System.currentTimeMillis();
+			
+			rs.next();
+			extraction = new Extraction(rs.getInt(1), rs.getString(2), rs.getInt(3));
+			Ruota[] ruote = getRuote();
+			extraction.setRuote(ruote);
+			Extracts[] extracts = new Extracts[11];
+			psExtract.setInt(1, extraction.getId());
+			rs = psExtract.executeQuery();
+			
+//			Log.println("query psExtract eseguita in: " +  ((System.currentTimeMillis() - now) / 1000) + " seconds." );
+//			now = System.currentTimeMillis();
+			
+			
+			int ruotaNumber = 0;
 			while (rs.next()) {
-				extract = new Extracts(rs.getInt(1),rs.getInt(2),rs.getInt(3));
-				list.add(extract);
+				extracts[ruotaNumber] = new Extracts(rs.getInt(1), rs.getInt(2), rs.getInt(3));
+				ruote[ruotaNumber].setExtracts(extracts[ruotaNumber]);
+				ruotaNumber++;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
+
+			for (Extracts extr : extracts) {
+				psNumbers.setInt(1, extr.getId());
+				rs = psNumbers.executeQuery();
+				
+//				Log.println("query psNumbers eseguita in: " +  ((System.currentTimeMillis() - now) / 1000) + " seconds." );
+//				now = System.currentTimeMillis();
+				
+				
+				Number[] numbers = new Number[5];
+				int idx = 0;
+				while (rs.next()) {
+					numbers[idx++] = new Number(rs.getInt(1), rs.getInt(2), rs.getInt(3));
+				}
+				extr.setNumbers(numbers);
+			}
+
 			if (rs != null) {
 				try {
 					rs.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					Log.print(e);
 				}
 			}
-
-			ConnectionPool.getInstance().closePreparedStatement(ps);
-			ConnectionPool.getInstance().closeConnection(conn);
-		}
-
-		return list.toArray(new Extracts[list.size()]);
-	
-	}
-	
-	public Number[] getNumbers() {
-
-		List<Number> list = new ArrayList<Number>();
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		Number number;
-
-		try {
-
-			conn = ConnectionPool.getInstance().getConnection();
-
-			ps = conn.prepareStatement(getQuery("sel.all.numbers"));
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				number = new Number(rs.getInt(1),rs.getInt(2),rs.getInt(3));
-				list.add(number);
-			}
+//			Log.println("Extraction found in DB in " + ((System.currentTimeMillis() - now2) / 1000) + " seconds.");
 		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-			ConnectionPool.getInstance().closePreparedStatement(ps);
-			ConnectionPool.getInstance().closeConnection(conn);
+			Log.print(e);
 		}
 
-		return list.toArray(new Number[list.size()]);
-	
+		return extraction;
 	}
 
 	private String getQuery(String s) throws Exception {
-		String path = it.emacro.services.ApplicationData.getInstance()
-				.getWebroot()
-				+ "WEB-INF/config/queries.properties";
-		// String path =
-		// "D:/workspace/lotto/WebContent/WEB-INF/config/queries.properties";
-		Properties properties = PropertyLoader.getPropertiesOrEmpty(path);
 		String res = properties.getProperty(s);
-
 		return res;
 	}
 

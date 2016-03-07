@@ -27,7 +27,7 @@ public class ExtractionsDbLoaderThread extends Thread {
 			loadExtractions();
 		} catch (Exception e) {
 			Log.println("Exception in extraction loading");
-			e.printStackTrace();
+			Log.print(e);
 		}
 	}
 
@@ -57,7 +57,7 @@ public class ExtractionsDbLoaderThread extends Thread {
 			Log.println("\ncause errors: " + fName
 					+ " has been renamed to " + fName + "." + today + ".ERR\n");
 			Log.println("Exception in extraction loading");
-			e.printStackTrace();
+			Log.print(e);
 		}
 	}
 

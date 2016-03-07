@@ -25,8 +25,8 @@ public class FileDownloader {
 		
 		try {
 			URL url = new URL(address);
-			out = new BufferedOutputStream(
-				new FileOutputStream(Utils.INPUT_FILE_FOLDER + localFileName));
+			OutputStream fos = new FileOutputStream(Utils.INPUT_FILE_FOLDER + localFileName);
+			out = new BufferedOutputStream(fos);
 			conn = url.openConnection();
 			in = conn.getInputStream();
 			byte[] buffer = new byte[1024];
@@ -65,10 +65,10 @@ public class FileDownloader {
 		String fileName;
 		
 		int lastSlashIndex = address.lastIndexOf('/');
-		if (lastSlashIndex >= 0 &&
-		    lastSlashIndex < address.length() - 1) {
+		if (lastSlashIndex >= 0 && lastSlashIndex < address.length() - 1) {
 			fileName = address.substring(lastSlashIndex + 1);
-			if(!download(address,fileName)){
+			boolean downloaded = download(address, fileName);
+			if( !downloaded ){
 				fileName = null;
 			}
 		

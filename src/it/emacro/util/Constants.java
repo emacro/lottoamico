@@ -31,7 +31,7 @@ public interface Constants {
 	public static final String CALC_PRES				= "Calcola presenze";
 	public static final String CALC_DISTANCES			= "Calcola distanze metriche";
 	public static final String FORCE_NEXT_DWL			= "Forza prossimo download";
-	public static final String INPUT_FILE_FOLDER 		= ApplicationData.getInstance().getWebroot() + "WEB-INF/extractions/";
-	public static final String LOG_FILE_FOLDER 		  	= ApplicationData.getInstance().getWebroot() + "WEB-INF/log/";
+	public static final String INPUT_FILE_FOLDER 		= ApplicationData.getInstance().getApplicationRoot() + "extractions/";
+	public static final String LOG_FILE_FOLDER 		  	= ApplicationData.getInstance().getApplicationRoot() + "log/";
 	
 }

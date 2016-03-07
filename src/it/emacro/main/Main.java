@@ -3,9 +3,9 @@
  */
 package it.emacro.main;
 
+import it.emacro.exceptions.SystemVeriableNotSetException;
+import it.emacro.log.Log;
 import it.emacro.services.Application;
-
-import java.io.File;
 
 /**
  * @author Emacro
@@ -27,30 +27,33 @@ public class Main {
 				return;
 			}
 			
-			String applicationRoot = getRootPath();
-			boolean startDownloadExtractionsFile = new Boolean(args[0]);
-			boolean startDbLoader = new Boolean(args[1]);
-			boolean setSystemLookAndFeel = new Boolean(args[2]);
+			boolean startDownloadExtractionsFile = Boolean.parseBoolean(args[0]);
+			boolean startDbLoader = Boolean.parseBoolean(args[1]);
+			boolean setSystemLookAndFeel = Boolean.parseBoolean(args[2]);
 			
 			Application.getInstance().start(
-					applicationRoot, 
+					getRootPath(), 
 					startDownloadExtractionsFile, 
 					startDbLoader, 
 					setSystemLookAndFeel
 			);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.print(e);
 		}
 	}
 
-	private static String getRootPath(){
-        // lo script che lo lancia DEVE ESSERE in lotto/WebContent/WEB-INF/script
-		// altrimenti l'applicazione da' un errore all'apertura
-		File here = new File(".");
-		String rootName = "WebContent";
-		int idx = here.getAbsolutePath().indexOf(rootName) + rootName.length();
-		return here.getAbsolutePath().substring(0, idx + 1);
+	private static String getRootPath() throws SystemVeriableNotSetException {
+        // caller has to set the 'rootpath' as system variable
+		String res = null;
+		String rootpath = System.getProperty("rootpath");
+		if (rootpath != null && !rootpath.isEmpty()) {
+			res = rootpath;
+		} else {
+			String msg = "The 'rootpath' system variable is not set. (ex.: -Drootpath=C:/programs/ThisApplication/)";
+			throw new SystemVeriableNotSetException(msg);
+		}
+		return res;
 	}
 
 }

@@ -31,11 +31,12 @@ public class Messenger {
 	}
 	
 	private void load(String language) {
-		String webRoot = ApplicationData.getInstance().getWebroot();
-		String messagesDir = "WEB-INF/config/messages/";
-		String extension = ".properties";
-		String path = webRoot + messagesDir + language + extension;
-		properties = PropertyLoader.getPropertiesOrEmpty(path);
+		String appRoot = ApplicationData.getInstance().getApplicationRoot();
+		StringBuffer path = new StringBuffer(appRoot);
+		path.append("config/messages/");
+		path.append(language);
+		path.append(".properties");
+		properties = PropertyLoader.getPropertiesOrEmpty(path.toString());
 	}
 	
 	public static Messenger getInstance() {

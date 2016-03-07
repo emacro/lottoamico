@@ -4,6 +4,7 @@
 package it.emacro.explorer;
 
 import it.emacro.extractor.db.Extraction;
+import it.emacro.extractor.db.Extracts;
 import it.emacro.extractor.db.Number;
 import it.emacro.extractor.db.Ruota;
 import it.emacro.manager.StorageManager;
@@ -46,7 +47,8 @@ public class ExtractionsExplorer {
 		for (Ruota r : extraction.getRuote()) {
 			listN = new ArrayList<String>();
 
-			for (Number n : r.getExtracts().getNumbers()) {
+			Extracts extracts = r.getExtracts();
+			for (Number n : extracts.getNumbers()) {
 				listN.add(n.toString());
 			}
 			list.add(listN.toArray(new String[listN.size()]));

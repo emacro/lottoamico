@@ -114,8 +114,7 @@ public class Extractor {
 					extrList.add(parsedLines[ii]);
 				}
 
-				String[] queries = QueryCreator.createInsertQueries(date,
-						number, extrList, conn);
+				String[] queries = QueryCreator.createInsertQueries(date, number, extrList, conn);
 
 				if (queries == null || queries.length == 0)
 					continue;

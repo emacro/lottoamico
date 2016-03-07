@@ -21,7 +21,7 @@ public class ApplicationData {
 
     private static ApplicationData instance;
 
-    private String webroot;
+    private String applicationRoot;
     private String extractionsFileName;
     private String extractionsFilePath;
     private String extractionsFileURL;
@@ -46,13 +46,17 @@ public class ApplicationData {
         }
         return instance;
     }
+    
+    public void setApplicationRoot(String applicationRoot) {
+		this.applicationRoot = applicationRoot;
+	}
+    
+    public String getApplicationRoot() {
+		return applicationRoot;
+	}
 
     public String getWebroot() {
-        return webroot;
-    }
-
-    public void setWebroot(String webroot) {
-        this.webroot = webroot;
+        return applicationRoot + "WebContent";
     }
 
 	public String getExtractionsFileName() {

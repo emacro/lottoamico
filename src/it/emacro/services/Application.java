@@ -9,18 +9,17 @@ import it.emacro.extractor.util.PropertyWriter;
 import it.emacro.gui.components.MainWindow;
 import it.emacro.log.Log;
 import it.emacro.log.LogFile;
+import it.emacro.manager.StorageManager;
 import it.emacro.util.Constants;
 import it.emacro.util.ExtractionsDbLoader;
 import it.emacro.util.Messenger;
 import it.emacro.zip.Zipper;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Properties;
 
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * @author Emacro
@@ -28,8 +27,8 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Application implements Constants {
 
-	private static final String PROP_DIR = "WEB-INF/config/application.properties";
-	private static final String DB_DIR   = "../DB";
+	private static String propertiesDir;
+	private static String dbDir;
 	/**
 	 * @throws Exception
 	 * 
@@ -53,13 +52,14 @@ public class Application implements Constants {
         return instance;
     }
 	
-	public void start(String applicationRoot, boolean startDownloadExtractionsFile, 
-			boolean startDbLoader, boolean setSystemLookAndFeel) throws Exception {
+	public void start(String appRoot, boolean startDownloadExtractionsFile, boolean startDbLoader, boolean setSystemLookAndFeel) throws Exception {
 		
 		if(!started){
-			properties = PropertyLoader.getPropertiesOrEmpty(applicationRoot + PROP_DIR);
-			startDB();
-			setApplicationRoot(applicationRoot);
+			setApplicationRoot(appRoot);
+		    propertiesDir =  appRoot + "config/application.properties";
+			dbDir   = appRoot + "DB";
+			properties = PropertyLoader.getPropertiesOrEmpty(propertiesDir);
+ 			startDB();
 			setApplicationLanguage(properties);
 			printLastUse(properties);
 			setForceExtractionReading(properties);
@@ -69,6 +69,7 @@ public class Application implements Constants {
 			setExtractionsFileName(properties);
 			loadNewExtractionsIntoDB(startDownloadExtractionsFile, startDbLoader);
 			setMainWindowDimension(properties);
+			StorageManager.getInstance(); // load extractions into the database
 			startGui(setSystemLookAndFeel);
 			started = true;
 		}
@@ -84,13 +85,12 @@ public class Application implements Constants {
 	// ----------------- private methods ------------------
 	
 	private void startDB() {
-		String[] args = {"-tcp", "-tcpPort", "9919", "-web", "-webPort", "8083", "-baseDir", DB_DIR};
-		String message = "\nPosizione files del database: " + new File(DB_DIR).getAbsolutePath();
+		String[] args = {"-tcp", "-tcpPort", "9919", "-web", "-webPort", "8083", "-baseDir", dbDir};
 		try {
 			org.h2.tools.Server.main(args);
-			System.out.println(message);
+			Log.print("\nPosizione files del database: " + dbDir);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.print(e);
 		}
 	}
 
@@ -101,18 +101,14 @@ public class Application implements Constants {
 		if (applicationRoot == null || applicationRoot.isEmpty()) {
 			throw new Exception("Missing aplication root");
 		}
-		ApplicationData.getInstance().setWebroot(applicationRoot);
+		ApplicationData.getInstance().setApplicationRoot(applicationRoot);
 
 		Log.println("application root: " + applicationRoot);
 //		Log.println(Messenger.getInstance().getMessage("application.root.is")  + applicationRoot);
 	}
 
-	private void loadNewExtractionsIntoDB(boolean startDownloadExtractionsFile,
-			boolean startDbLoader) {
-		
-		
+	private void loadNewExtractionsIntoDB(boolean startDownloadExtractionsFile, boolean startDbLoader) {
 		boolean canDo;
-
 		// extraction file download and reading can be forced only for one time
 		// if it is the last extracion date will be ignored
 		if(ApplicationData.getInstance().isForceExtractionReading()){
@@ -134,7 +130,7 @@ public class Application implements Constants {
 				try {
 					Thread.sleep(2000);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					Log.print(e);
 				}
 				Zipper.unzip(fn);
 			}
@@ -142,14 +138,13 @@ public class Application implements Constants {
 		}
 
 		if (canDo && startDbLoader) {
-			String oldDate = ApplicationData.getInstance()
-					.getLastExtractionDate();
+			String oldDate = ApplicationData.getInstance().getLastExtractionDate();
 			String newDate = null;
 
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Log.print(e);
 			}
 
 			Log.println(Messenger.getInstance().getMessage("loading.extractions.from.file.to.db"));
@@ -172,8 +167,8 @@ public class Application implements Constants {
 	private void startGui(boolean setSystemLookAndFeel) throws Exception {
 		try {
 			if (setSystemLookAndFeel) {
-				UIManager.setLookAndFeel(UIManager
-						.getSystemLookAndFeelClassName());
+				String loolAnfFeel = UIManager.getSystemLookAndFeelClassName();
+				UIManager.setLookAndFeel(loolAnfFeel);
 			}
 
 			MainWindow mw = new MainWindow();
@@ -181,14 +176,8 @@ public class Application implements Constants {
 
 			Log.println(Messenger.getInstance().getMessage("starting.gui"));
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
+		}catch (Exception e) {
+			Log.print(e);
 		}
 	}
 
@@ -203,8 +192,7 @@ public class Application implements Constants {
 	}
 
 	private void setExtractionsFilePath(Properties properties) {
-		String fp = INPUT_FILE_FOLDER
-				+ properties.getProperty("extractions.file.name");
+		String fp = INPUT_FILE_FOLDER + properties.getProperty("extractions.file.name");
 		if (fp == null || fp.trim().isEmpty()) {
 			fp = INPUT_FILE_FOLDER + DEFAULT_EXTRACTIONS_FILE_NAME;
 		}
@@ -248,15 +236,13 @@ public class Application implements Constants {
 	}
 
 	private void setProperty(String key, String value) {
-		String path = ApplicationData.getInstance().getWebroot() + "WEB-INF/config/application.properties";
-
+		String path = ApplicationData.getInstance().getApplicationRoot() + "config/application.properties";
 		properties.setProperty(key, value);
 		try {
 			PropertyWriter.setProperties(path, properties);
-
 		} catch (Exception e) {
 			Log.println(Messenger.getInstance().getMessage("cannot.store.new.last.extractions.date"));
-			e.printStackTrace();
+			Log.print(e);
 		}
 	}
 	
@@ -282,7 +268,6 @@ public class Application implements Constants {
 	private void setApplicationLanguage(Properties properties) {
 		String lang = properties.getProperty("application.language");
 		ApplicationData.getInstance().setLanguage(lang);
-
 		Log.println(Messenger.getInstance().getMessage("application.language.is") + lang);
 	}
 	

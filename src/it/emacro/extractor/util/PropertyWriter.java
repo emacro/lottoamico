@@ -3,6 +3,8 @@
  */
 package it.emacro.extractor.util;
 
+import it.emacro.log.Log;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -31,7 +33,7 @@ public class PropertyWriter {
 	// fin.close();
 	// fos.close();
 	// } catch (IOException e) {
-	// e.printStackTrace();
+	// Log.print(e);
 	// }
 	// }
 	// }
@@ -48,7 +50,7 @@ public class PropertyWriter {
 				try {
 					fos.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Log.print(e);
 				}
 			}
 		}

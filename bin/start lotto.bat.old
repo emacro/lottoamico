@@ -1,0 +1,12 @@
+@echo off
+
+cd ..\h2\bin
+start rundb.bat
+
+cd ..\..\script
+run_lotto.bat
+
+
+
+
+exit

@@ -1,6 +1,7 @@
 package it.emacro.util;
 
 import it.emacro.extractor.util.FileUtils;
+import it.emacro.log.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +61,7 @@ public class MakeFile {
 			}
 			FileUtils.writeFile(file, lines);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.print(e);
 		}
 	}
 }

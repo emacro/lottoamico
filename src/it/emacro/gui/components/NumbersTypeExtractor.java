@@ -4,6 +4,7 @@
 package it.emacro.gui.components;
 
 import it.emacro.gui.panels.NumbersType;
+import it.emacro.log.Log;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class NumbersTypeExtractor implements NumbersType {
 					Integer.class);
 			result = (String[]) m.invoke(null, new Integer(t[1]));
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.print(e);
 		}
 		return result;
 	}

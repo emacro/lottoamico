@@ -47,8 +47,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 @SuppressWarnings("serial")
-public class MainWindow extends JFrame implements ActionListener, ItemListener,
-		AdjustmentListener, DocumentListener, Constants {
+public class MainWindow extends JFrame implements ActionListener, ItemListener, AdjustmentListener, DocumentListener, Constants {
 
 	private String[] dates;
 
@@ -102,7 +101,7 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener,
 		count = 0;
 		ruote = Utils.getRuote();
 		dates = Utils.getAllExtractionDates();
-		extraction = Utils.getExtraction(count);
+		extraction = Utils.getExtraction(count);// also load extraction into memory
 
 		addPanels(getNorth(), getSouth(), getEast(), getWest(), getCenter());
 		pack();
@@ -362,8 +361,7 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener,
 	private JPanel getEast() {
 		JPanel eastPanel = new JPanel();
 		eastPanel.setLayout(new GridLayout(1, 3));
-		scroll = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, Utils
-				.getNumOfExtractions());
+		scroll = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, Utils.getNumOfExtractions());
 		scroll.addAdjustmentListener(this);
 		eastPanel.add(new JLabel());
 		eastPanel.add(scroll);

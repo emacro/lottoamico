@@ -1,12 +1,9 @@
-/**
- * 
- */
 package it.emacro.cache;
 
 import it.emacro.extractor.db.Extraction;
 import it.emacro.extractor.db.Extracts;
-import it.emacro.extractor.db.Number;
 import it.emacro.extractor.db.Ruota;
+import it.emacro.extractor.db.Number;
 
 /**
  * @author Emc

@@ -93,7 +93,7 @@ public class LogFile {
 			println("");
 		} catch (IOException e) {
 			System.out.println("Impossibile creare il file di log");
-			e.printStackTrace();
+			Log.print(e);
 		}
 		
 	}

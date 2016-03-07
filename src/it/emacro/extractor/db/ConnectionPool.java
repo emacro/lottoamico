@@ -64,8 +64,7 @@ public class ConnectionPool {
 
 	private void setupDataSource() throws SQLException {
 		// String path = "WebContent/WEB-INF/config/database.properties";
-		String path = it.emacro.services.ApplicationData.getInstance().getWebroot()
-				+ "WEB-INF/config/database.properties";
+		String path = it.emacro.services.ApplicationData.getInstance().getApplicationRoot() + "config/database.properties";
 		// String path =
 		// "D:\\workspace\\lotto\\WebContent\\WEB-INF\\config\\database.properties";
 		// properties = PropertyLoader.getPropertiesOrEmpty(path);
