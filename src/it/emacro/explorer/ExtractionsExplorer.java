@@ -3,15 +3,16 @@
  */
 package it.emacro.explorer;
 
-import it.emacro.extractor.db.Extraction;
-import it.emacro.extractor.db.Number;
-import it.emacro.extractor.db.Ruota;
-import it.emacro.manager.StorageManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import it.emacro.extractor.db.Extraction;
+import it.emacro.extractor.db.Extracts;
+import it.emacro.extractor.db.Number;
+import it.emacro.extractor.db.Ruota;
+import it.emacro.manager.StorageManager;
 
 /**
  * @author Emc
@@ -51,7 +52,7 @@ public class ExtractionsExplorer {
 			for (Ruota r : extraction.getRuote()) {
 				listN = new ArrayList<String>();
 				
-				Extract extractsObj = r.getExtracts();
+				Extracts extractsObj = r.getExtracts();
 
 				if(null != extractsObj)
 					for (Number n : extractsObj.getNumbers())  
