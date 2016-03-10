@@ -3,7 +3,20 @@
  */
 package it.emacro.services;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Logger;
+
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import it.emacro.downloader.FileDownloader;
+import it.emacro.extractor.db.ConnectionPool;
 import it.emacro.extractor.util.PropertyLoader;
 import it.emacro.extractor.util.PropertyWriter;
 import it.emacro.gui.components.MainWindow;
@@ -14,19 +27,14 @@ import it.emacro.util.ExtractionsDbLoader;
 import it.emacro.util.Messenger;
 import it.emacro.zip.Zipper;
 
-import java.io.File;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Properties;
-
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 /**
  * @author Emacro
  * 
  */
 public class Application implements Constants {
+	
+	
+	private Logger logger = Logger.getLogger("Application");
 
 	private static final String PROP_DIR = "WEB-INF/config/application.properties";
 	private static final String DB_DIR   = "/DB";
@@ -35,8 +43,9 @@ public class Application implements Constants {
 	 * 
 	 */
 	private Properties properties;
-	private boolean started;
 	private static Application instance;
+	private String applicationStatus;
+	private Long time;
 
 	private Application() {
 		super();
@@ -54,12 +63,23 @@ public class Application implements Constants {
     }
 	
 	public void start(ApplicationSettings settings) throws Exception {
+
+		properties = PropertyLoader.getPropertiesOrEmpty(settings.applicationRoot + PROP_DIR);
+		setApplicationRoot(settings.applicationRoot);
+		setApplicationLanguage(properties);
+		startDB();
+		
+		final Connection conn = ConnectionPool.getInstance().getConnection();
+		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM SETTINGS WHERE NAME = 'APPLICATION_STATUS'");
+		if(rs.next()) {
+			applicationStatus = rs.getString("VALUE");
+			time = rs.getLong("TIME");
+		}
+		
+		boolean started = applicationStatus != null && "RUNNING".equals(applicationStatus) && 
+				(System.currentTimeMillis() - time) < 30000;
 		
 		if(!started){
-			properties = PropertyLoader.getPropertiesOrEmpty(settings.applicationRoot + PROP_DIR);
-			startDB();
-			setApplicationRoot(settings.applicationRoot);
-			setApplicationLanguage(properties);
 			printLastUse(properties);
 			setForceExtractionReading(properties);
 			setLastExtractionDate(properties);
@@ -70,16 +90,71 @@ public class Application implements Constants {
 			loadNewExtractionsIntoDB(settings.startDownloadExtractionsFile, settings.startDbLoader);
 			setMainWindowDimension(properties);
 			startGui(settings.setSystemLookAndFeel);
-			started = true;
-		}
-	}
-	
-	public void stop() {
-		if(started){
+			
+			boolean done = false;
+			if(applicationStatus != null){
+				done = conn.createStatement()
+						.executeUpdate("UPDATE SETTINGS SET VALUE = 'RUNNING' WHERE NAME = 'APPLICATION_STATUS'") > 0;
+						
+				if (done) {
+					
+					new Timer().schedule(new TimerTask() {
+						
+						@Override
+						public void run() {
+							try {
+								conn.createStatement()
+								.executeUpdate("UPDATE SETTINGS SET TIME = " + System.currentTimeMillis() + 
+										" WHERE NAME = 'APPLICATION_STATUS'");
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+						}
+					}, 10000, 10000);
+				}
+			}else{
+				done = conn.createStatement().execute("INSERT INTO SETTINGS (NAME,VALUE,TIME,EXTRA) VALUES ('APPLICATION_STATUS','RUNNING'," + System.currentTimeMillis() + ",'application status info')");
+			}
+			
+		}else{
+			this.logger.severe("PROJECT IS ALREADY RUNNING, GIVE UP!");
 			LogFile.getInstance().close();
 			System.exit(0);
 		}
 	}
+	
+	public void stop() {
+		
+		Connection conn = null;
+		
+		try {
+			conn = ConnectionPool.getInstance().getConnection();
+			ResultSet rs = conn.createStatement().executeQuery("SELECT VALUE FROM SETTINGS WHERE NAME = 'APPLICATION_STATUS'");
+			if(rs.next()) applicationStatus = rs.getString("VALUE");
+
+			boolean started = applicationStatus != null && "RUNNING".equals(applicationStatus);
+			if(started){
+				conn = ConnectionPool.getInstance().getConnection();
+				conn.createStatement()
+				.executeUpdate("UPDATE SETTINGS SET VALUE = 'STOPPED' WHERE NAME = 'APPLICATION_STATUS'");
+
+				LogFile.getInstance().close();
+				System.exit(0);
+			}
+
+		} catch (SQLException e) {
+				 
+				try {
+					if(conn != null) conn.createStatement()
+					.executeUpdate("UPDATE SETTINGS SET VALUE = 'ERROR' WHERE NAME = 'APPLICATION_STATUS'");
+
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
+				e.printStackTrace();
+			}
+		}
 	
 	// ----------------- private methods ------------------
 	

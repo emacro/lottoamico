@@ -7,6 +7,7 @@
 -------------------------------------------------------------------
 --------------------------------------------------------------------
 
+DROP TABLE IF EXISTS SETTINGS;
 DROP TABLE IF EXISTS RUOTE;
 DROP TABLE IF EXISTS EXTRACTIONS;
 DROP TABLE IF EXISTS EXTRACTS;
@@ -20,6 +21,20 @@ DROP SEQUENCE IF EXISTS EXTRACTS_SEQ;
 -- CREATE SEQUENCE EXTRACTIONS_SEQ START WITH 1 INCREMENT BY 1;
 -- CREATE SEQUENCE EXTRACTS_SEQ START WITH 1 INCREMENT BY 1;
 --------------------------------------------------------------------
+
+--------------------------------------
+--
+--	table Settings
+--
+--------------------------------------
+CREATE TABLE SETTINGS (
+
+	NAME		VARCHAR (20) NOT NULL,
+	VALUE		VARCHAR (20) NOT NULL,
+	TIME        LONG,
+	EXTRA		VARCHAR (200) NOT NULL,
+	 
+);
 
 --------------------------------------
 --
