@@ -50,10 +50,13 @@ public class ExtractionsExplorer {
 		try{
 			for (Ruota r : extraction.getRuote()) {
 				listN = new ArrayList<String>();
+				
+				Extract extractsObj = r.getExtracts();
 
-				for (Number n : r.getExtracts().getNumbers()) {
-					listN.add(n.toString());
-				}
+				if(null != extractsObj)
+					for (Number n : extractsObj.getNumbers())  
+							listN.add(n.toString());
+				
 				list.add(listN.toArray(new String[listN.size()]));
 			}
 		}
