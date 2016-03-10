@@ -21,7 +21,7 @@ public class ResultShower extends JFrame implements ActionListener {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
+	// @Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
