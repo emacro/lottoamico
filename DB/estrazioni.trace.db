@@ -1,0 +1,32 @@
+2016-03-11 13:53:48 pageStore: Transaction log could not be truncated; size: 16 MB
+2016-03-11 13:54:22 database: close
+org.h2.message.DbException: File corrupted while reading record: "index not found 33". Possible solution: use the recovery tool [90030-191]
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.store.PageStore.getPage(PageStore.java:768)
+	at org.h2.store.PageStore.compact(PageStore.java:710)
+	at org.h2.store.PageStore.compact(PageStore.java:538)
+	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1356)
+	at org.h2.engine.Database.close(Database.java:1286)
+	at org.h2.engine.DatabaseCloser.run(DatabaseCloser.java:63)
+Caused by: org.h2.jdbc.JdbcSQLException: File corrupted while reading record: "index not found 33". Possible solution: use the recovery tool [90030-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	... 8 more
+2016-03-11 13:56:46 database: close
+org.h2.message.DbException: File corrupted while reading record: "index not found 33". Possible solution: use the recovery tool [90030-191]
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.store.PageStore.getPage(PageStore.java:768)
+	at org.h2.store.PageStore.compact(PageStore.java:710)
+	at org.h2.store.PageStore.compact(PageStore.java:538)
+	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1356)
+	at org.h2.engine.Database.close(Database.java:1286)
+	at org.h2.engine.Database.removeSession(Database.java:1170)
+	at org.h2.engine.Session.close(Session.java:815)
+	at org.h2.server.TcpServerThread.closeSession(TcpServerThread.java:185)
+	at org.h2.server.TcpServerThread.process(TcpServerThread.java:281)
+	at org.h2.server.TcpServerThread.run(TcpServerThread.java:159)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: org.h2.jdbc.JdbcSQLException: File corrupted while reading record: "index not found 33". Possible solution: use the recovery tool [90030-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	... 13 more
