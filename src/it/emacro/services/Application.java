@@ -80,16 +80,7 @@ public class Application implements Constants {
 				(System.currentTimeMillis() - time) < 30000;
 		
 		if(!started){
-			printLastUse(properties);
-			setForceExtractionReading(properties);
-			setLastExtractionDate(properties);
-			setExtractionsFileURL(properties);
-			setExtractionsFilePath(properties);
-			setExtractionsFileName(properties);
-			setExtractorImplementation(properties);
-			loadNewExtractionsIntoDB(settings.startDownloadExtractionsFile, settings.startDbLoader);
-			setMainWindowDimension(properties);
-			startGui(settings.setSystemLookAndFeel);
+			
 			
 			boolean done = false;
 			if(applicationStatus != null){
@@ -110,14 +101,33 @@ public class Application implements Constants {
 								e.printStackTrace();
 							}
 						}
-					}, 10000, 10000);
+					}, 10, 10000);
 				}
+				
+				if (done) {
+					printLastUse(properties);
+					setForceExtractionReading(properties);
+					setLastExtractionDate(properties);
+					setExtractionsFileURL(properties);
+					setExtractionsFilePath(properties);
+					setExtractionsFileName(properties);
+					setExtractorImplementation(properties);
+					loadNewExtractionsIntoDB(settings.startDownloadExtractionsFile, settings.startDbLoader);
+					setMainWindowDimension(properties);
+					startGui(settings.setSystemLookAndFeel);
+				}
+				else{
+					this.logger.severe("lottoAmico can't start, you have to find out why");
+					LogFile.getInstance().close();
+					System.exit(0);
+				}
+				
 			}else{
 				done = conn.createStatement().execute("INSERT INTO SETTINGS (NAME,VALUE,TIME,EXTRA) VALUES ('APPLICATION_STATUS','RUNNING'," + System.currentTimeMillis() + ",'application status info')");
 			}
 			
 		}else{
-			this.logger.severe("PROJECT IS ALREADY RUNNING, GIVE UP!");
+			this.logger.severe("lottoAmico is already running, give up!");
 			LogFile.getInstance().close();
 			System.exit(0);
 		}
@@ -129,18 +139,18 @@ public class Application implements Constants {
 		
 		try {
 			conn = ConnectionPool.getInstance().getConnection();
-			ResultSet rs = conn.createStatement().executeQuery("SELECT VALUE FROM SETTINGS WHERE NAME = 'APPLICATION_STATUS'");
-			if(rs.next()) applicationStatus = rs.getString("VALUE");
+//			ResultSet rs = conn.createStatement().executeQuery("SELECT VALUE FROM SETTINGS WHERE NAME = 'APPLICATION_STATUS'");
+//			if(rs.next()) applicationStatus = rs.getString("VALUE");
 
-			boolean started = applicationStatus != null && "RUNNING".equals(applicationStatus);
-			if(started){
+//			boolean started = applicationStatus != null && "RUNNING".equals(applicationStatus);
+//			if(started){
 				conn = ConnectionPool.getInstance().getConnection();
 				conn.createStatement()
 				.executeUpdate("UPDATE SETTINGS SET VALUE = 'STOPPED' WHERE NAME = 'APPLICATION_STATUS'");
-
 				LogFile.getInstance().close();
+				this.logger.info("closing lottoAmico.. bye bye!");
 				System.exit(0);
-			}
+//			}
 
 		} catch (SQLException e) {
 				 
