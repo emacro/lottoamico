@@ -27,3 +27,6 @@ il 92 e' il numero dell'estrazione, i numeri 55 40 67 12 71 fanno riferimento ag
 
 
 fare partire con: run_extractor nome_file.txt 
+
+
+(test rebase master)
