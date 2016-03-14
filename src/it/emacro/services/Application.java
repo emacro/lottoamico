@@ -81,7 +81,6 @@ public class Application implements Constants {
 		
 		if(!started){
 			
-			
 			boolean done = false;
 			if(applicationStatus != null){
 				done = conn.createStatement()
@@ -197,7 +196,6 @@ public class Application implements Constants {
 
 	private void loadNewExtractionsIntoDB(boolean startDownloadExtractionsFile, boolean startDbLoader) {
 		
-		
 		boolean canDo;
 
 		// extraction file download and reading can be forced only for one time
@@ -225,7 +223,6 @@ public class Application implements Constants {
 				}
 				if(fn != null && fn.endsWith(".zip")) Zipper.unzip(fn);
 			}
-
 		}
 
 		if (canDo && startDbLoader) {

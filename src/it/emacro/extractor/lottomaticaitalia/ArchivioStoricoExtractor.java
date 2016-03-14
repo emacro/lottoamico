@@ -29,31 +29,19 @@ public class ArchivioStoricoExtractor implements Extractor {
 	public ArchivioStoricoExtractor() {
 		super();
 	}
-
-	/* (non-Javadoc)
-	 * @see it.emacro.extractor.Extractor#extract(java.lang.String)
-	 */
+ 
 	public void extract(String source) throws Exception {
 		extract(new File(source), null);
 	}
-
-	/* (non-Javadoc)
-	 * @see it.emacro.extractor.Extractor#extract(java.io.File)
-	 */
+ 
 	public void extract(File source) throws Exception {
 		extract(source, null);
 	}
-
-	/* (non-Javadoc)
-	 * @see it.emacro.extractor.Extractor#extract(java.lang.String, java.lang.String)
-	 */
+ 
 	public void extract(String source, String destination) throws Exception {
 		extract(new File(source), new File(destination));
 	}
-
-	/* (non-Javadoc)
-	 * @see it.emacro.extractor.Extractor#extract(java.io.File, java.io.File)
-	 */
+ 
 	public void extract(File source, File destination) throws Exception {
 		List<String> unparsedLines = null;
 		String date = null;
@@ -197,7 +185,7 @@ public class ArchivioStoricoExtractor implements Extractor {
 	}
 	
 	public static void main(String[] args) {
-		String pipes = "|"; int counter = 0;
+		int counter = 0;
 		for (int i = 0; i < (5000 * 11 ); i++) {
 			System.out.print( ( ((counter++)%5) == 0 ) ? ("|") : "" );
 		}

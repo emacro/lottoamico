@@ -49,6 +49,10 @@ public class ExtractionsExplorer {
 		List<String> listN;
 
 		try{
+			
+			if(extraction.getRuote() == null || extraction.getRuote().length < 11) 
+				throw new RuntimeException(String.format("Cannot feth Ruote by extraction: %s", extraction));
+			
 			for (Ruota r : extraction.getRuote()) {
 				listN = new ArrayList<String>();
 				
@@ -62,7 +66,9 @@ public class ExtractionsExplorer {
 			}
 		}
 		catch(Exception e){
-			logger.log(Level.SEVERE, String.format("Errore in fase di parsing per l'estrazione: %s ", extraction), e);
+			logger.log(Level.SEVERE, 
+					String.format("Error in parsing phase for extraction number: %s ", 
+							extraction.getNumber()), e);
 		}
  
 		return list;

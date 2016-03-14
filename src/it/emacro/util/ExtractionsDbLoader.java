@@ -3,13 +3,12 @@
  */
 package it.emacro.util;
 
-import it.emacro.extractor.Extractor;
-import it.emacro.extractor.ExtractorTXT;
-import it.emacro.log.Log;
-import it.emacro.services.ApplicationData;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
+
+import it.emacro.extractor.Extractor;
+import it.emacro.log.Log;
+import it.emacro.services.ApplicationData;
 
 /**
  * @author Emc
