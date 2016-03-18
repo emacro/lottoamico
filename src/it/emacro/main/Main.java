@@ -5,11 +5,11 @@ package it.emacro.main;
 
 import java.io.File;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import it.emacro.services.Application;
 import it.emacro.services.ApplicationSettings;
+import it.emacro.test.ApplicationContextAwareTEST;
 
 /**
  * @author Emacro
@@ -17,8 +17,11 @@ import it.emacro.services.ApplicationSettings;
  */
 public class Main {
 
-	//	@Autowired
-	//	private ApplicationSettings settings;
+	@Autowired
+	private ApplicationSettings applicationSettings;
+	
+	@Autowired
+	private ApplicationContextAwareTEST  applicationContextAwareTEST;
 	
 	/***
 	 * 
@@ -63,17 +66,37 @@ public class Main {
 
 	public void execute(boolean startDownloadExtractionsFile, boolean startDbLoader, boolean setSystemLookAndFeel) {
 
+		
+		try {
+			
+			
+			if(applicationContextAwareTEST == null) {
+				
+				System.out.println("applicationContextAwareTEST is NULL");
+				System.exit(-1);
+			}
+			
+			System.out.println("applicationContextAwareTEST is GOOD");
+			System.exit(0);
+			
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
 		try {
 
-			ApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
-			ApplicationSettings settings = (ApplicationSettings) context.getBean("settings");
+//			ApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
+//			ApplicationSettings settings = (ApplicationSettings) context.getBean("settings");
 
 			// settings.applicationRoot = getDevelopingRootPath();
-			settings.applicationRoot = getRootPath();
-			settings.startDownloadExtractionsFile = startDownloadExtractionsFile;
-			settings.startDbLoader = startDbLoader;
-			settings.setSystemLookAndFeel = setSystemLookAndFeel;
-			Application.getInstance().start(settings);
+			applicationSettings.applicationRoot = getRootPath();
+			applicationSettings.startDownloadExtractionsFile = startDownloadExtractionsFile;
+			applicationSettings.startDbLoader = startDbLoader;
+			applicationSettings.setSystemLookAndFeel = setSystemLookAndFeel;
+			Application.getInstance().start(applicationSettings);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -95,11 +118,23 @@ public class Main {
 			return here.getAbsolutePath().substring(0, idx + 1);
 		}
 	}
+	
+	public void setApplicationSettings(ApplicationSettings applicationSettings) {
+		this.applicationSettings = applicationSettings;
+	}
+	
+	public ApplicationSettings getApplicationSettings() {
+		return applicationSettings;
+	}
 
 	private String getDevelopingRootPath(){
 		// lo script che lo lancia DEVE ESSERE in lotto/WebContent/WEB-INF/script
 		// altrimenti l'applicazione da' un errore all'apertura
 		return "D:/EC_WORK_ROOT/EC_PROGETTI/lotto_amico_20101218/WebContent/";
+	}
+	
+	public void setApplicationContextAwareTEST(ApplicationContextAwareTEST applicationContextAwareTEST) {
+		this.applicationContextAwareTEST = applicationContextAwareTEST;
 	}
 
 }
