@@ -7,11 +7,11 @@
 	</properties> <dependencies> <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId> 
 	<version>3.8.1</version> <scope>test</scope> </dependency> </dependencies> 
 	</project> -->
- 
-		 
+
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	 
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.emacro</groupId>
 	<artifactId>lottoAmico</artifactId>
@@ -21,7 +21,19 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<spring.version>3.0.5.RELEASE</spring.version>
+		<!-- Generic properties -->
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- tell the compiler we can use 1.8 -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<!-- SPRING & HIBERNATE / JPA -->
+		<spring.version>4.0.0.RELEASE</spring.version>
+		<!-- <hibernate.version>4.1.9.Final</hibernate.version> -->
+
+		<wro4j.version>1.6.3</wro4j.version>
 	</properties>
 
 	<dependencies>
@@ -38,6 +50,37 @@
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.192</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-pool/commons-pool -->
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.6</version>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.oracle.jdbc</groupId> -->
+<!-- 			<artifactId>ojdbc7</artifactId> -->
+<!-- 			<version>12.1.0.2</version> -->
+<!-- 		</dependency> -->
+
 	</dependencies>
 
 	<build>
@@ -65,6 +108,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>
 

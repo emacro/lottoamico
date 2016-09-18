@@ -25,13 +25,20 @@ public class FileDownloader {
 		
 		try {
 			URL url = new URL(address);
-			out = new BufferedOutputStream(
-				new FileOutputStream(Utils.INPUT_FILE_FOLDER + localFileName));
 			conn = url.openConnection();
 			in = conn.getInputStream();
 			byte[] buffer = new byte[1024];
 			int numRead;
 			
+			File directory = new File(Utils.INPUT_FILE_FOLDER);
+			File file = new File(directory, localFileName);
+			if(!file.exists()){
+				if(!directory.exists()){
+					directory.mkdirs();
+				}
+				file.createNewFile();
+			}
+			out = new BufferedOutputStream(new FileOutputStream(file));
 			while ((numRead = in.read(buffer)) != -1) {
 				out.write(buffer, 0, numRead);
 			}

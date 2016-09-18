@@ -1,12 +1,12 @@
-*** application started at: Thu Mar 10 15:07:31 CET 2016
+*** application started at: Sun Sep 18 10:30:42 CEST 2016
 
 
-application root: C:/Users/Emanuele/Documents/lottoamico/WebContent/
+application root: C:\workspaces\workspace05\lottoamico/WebContent/
 lingua settata a: italiano
-data dell'ultimo utilizzo: giovedi, 10 marzo 2016 14.46
-data dell'ultima estrazione: 2016-03-08
+data dell'ultimo utilizzo: domenica, 18 settembre 2016 10.30
+data dell'ultima estrazione: 2016-09-17
 URL del file delle estrazioni: http://www.lottomaticaitalia.it/lotto/doc/archivio/storico.zip
-percorso del file estrazioni: C:/Users/Emanuele/Documents/lottoamico/WebContent/WEB-INF/extractions/storico.txt
+percorso del file estrazioni: C:\workspaces\workspace05\lottoamico/WebContent/WEB-INF/extractions/storico.txt
 nome del file delle estrazioni: storico.txt
 caricamento dei dati del database in memoria
 caricamento tabella delle estrazioni...
@@ -21,4 +21,4 @@ le estrazioni sono state mappate correttamente
 esecuzione dell'interfaccia grafica...
 
 
-*** application closed at: Thu Mar 10 15:07:51 CET 2016
+*** application closed at: Sun Sep 18 10:30:51 CEST 2016
