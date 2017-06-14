@@ -8,10 +8,11 @@ cd ..\WebContent\
 set LIB_HOME=WEB-INF\lib
 set JAVA_EXEC=..\java\jre7\bin\java
 
-set JARS=%LIB_HOME%\h2.jar
-set JARS=%JARS%;%LIB_HOME%\commons-collections-3.1.jar
-set JARS=%JARS%;%LIB_HOME%\commons-dbcp-1.2.1.jar
-set JARS=%JARS%;%LIB_HOME%\commons-pool-1.3.jar
+:: set JARS=%LIB_HOME%\h2.jar
+:: set JARS=%JARS%;%LIB_HOME%\commons-collections-3.1.jar
+:: set JARS=%JARS%;%LIB_HOME%\commons-dbcp-1.2.1.jar
+:: set JARS=%JARS%;%LIB_HOME%\commons-pool-1.3.jar
+set JARS=%JARS%;%LIB_HOME%\lottoAmico-1.0-SNAPSHOT.jar
 
 set CLASSES=WEB-INF\classes
 set c=.;%JARS%;%CLASSES%

@@ -1,7 +1,7 @@
 #Application properties
-#Wed Jun 14 14:07:32 CEST 2017
+#Wed Jun 14 12:26:54 CEST 2017
 application.author=di Emanuele Crocilla' (emanuele.crocilla@gmail.com)
-last.extraction.date=2017-06-13
+last.extraction.date=2017-06-10
 main.window.width=888
 run.cached.version=true
 application.revisions=Aug '2007 - Gen '12 - Nov '15
@@ -10,7 +10,7 @@ main.window.height=1026
 extraction.file.url=http\://www.lottoscionti.com/Lotto/archivio/zip/estrazioni{%blank-space}{$currentYear}.zip
 application.language=italiano
 extractor.imlementation=it.emacro.extractor.lottoscionti.LottosciontiExtractor
-last.appllication.use=mercoled\u00EC, 14 giugno 2017 14.07
+last.appllication.use=mercoled\u00EC, 14 giugno 2017 12.26
 extractions.file.name=estrazioni{%blank-space}{$currentYear}.txt
 force.extraction.read=false
 application.version=2.2.0
