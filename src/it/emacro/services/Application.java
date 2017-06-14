@@ -281,6 +281,10 @@ public class Application implements Constants {
 		if (fn == null || fn.trim().isEmpty()) {
 			fn = DEFAULT_EXTRACTIONS_FILE_NAME;
 		}
+		
+		fn = fn.replace("{$currentYear}", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+		fn = fn.replace("{%blank-space}", " ");
+		
 		ApplicationData.getInstance().setExtractionsFileName(fn);
 
 		Log.println(Messenger.getInstance().getMessage("extractions.file.name") + fn);
@@ -292,6 +296,10 @@ public class Application implements Constants {
 		if (fp == null || fp.trim().isEmpty()) {
 			fp = INPUT_FILE_FOLDER + DEFAULT_EXTRACTIONS_FILE_NAME;
 		}
+		
+		fp = fp.replace("{$currentYear}", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+		fp = fp.replace("{%blank-space}", " ");
+		
 		ApplicationData.getInstance().setExtractionsFilePath(fp);
 
 		Log.println(Messenger.getInstance().getMessage("extractions.file.path") + fp);
@@ -299,6 +307,10 @@ public class Application implements Constants {
 
 	private void setExtractionsFileURL(Properties properties) {
 		String fp = properties.getProperty("extraction.file.url");
+		
+		fp = fp.replace("{$currentYear}", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+		fp = fp.replace("{%blank-space}", "%20");
+		
 		ApplicationData.getInstance().setExtractionsFileURL(fp);
 
 		Log.println(Messenger.getInstance().getMessage("extractions.file.url") + fp);

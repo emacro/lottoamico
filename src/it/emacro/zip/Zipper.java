@@ -32,24 +32,31 @@ public class Zipper {
 			is = null;
 			ZipEntry entry;
 			zipfile = new ZipFile(Utils.INPUT_FILE_FOLDER + fileName);
-			Enumeration e = zipfile.entries();
+			Enumeration<?> entries = zipfile.entries();
 
-			while (e.hasMoreElements()) {
-				entry = (ZipEntry) e.nextElement();
+			while (entries.hasMoreElements()) {
+				entry = (ZipEntry) entries.nextElement();
+				
+				if(entry.isDirectory()){
+					continue;
+				}
 
 				is = new BufferedInputStream(zipfile.getInputStream(entry));
 				int count;
 				byte data[] = new byte[BUFFER];
+				
 				FileOutputStream fos = new FileOutputStream(
-						Utils.INPUT_FILE_FOLDER + entry.getName());
+						Utils.INPUT_FILE_FOLDER + entry.getName().substring(entry.getName().lastIndexOf("/")+1));
 				dest = new BufferedOutputStream(fos, BUFFER);
 				while ((count = is.read(data, 0, BUFFER)) != -1) {
 					dest.write(data, 0, count);
 				}
+				
 				dest.flush();
 				dest.close();
 				is.close();
 				Log.println(Messenger.getInstance().getMessage("unzipped") + entry);
+				
 			}
 		} catch (Exception e) {
 			Log.print(e);

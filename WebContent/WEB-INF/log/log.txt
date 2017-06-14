@@ -1,13 +1,25 @@
-*** application started at: Sun Sep 18 10:30:42 CEST 2016
+*** application started at: Wed Jun 14 10:18:15 CEST 2017
 
 
-application root: C:\workspaces\workspace05\lottoamico/WebContent/
+application root: C:/Users/Emanuele/git/lottoamico/WebContent/
 lingua settata a: italiano
-data dell'ultimo utilizzo: domenica, 18 settembre 2016 10.30
-data dell'ultima estrazione: 2016-09-17
-URL del file delle estrazioni: http://www.lottomaticaitalia.it/lotto/doc/archivio/storico.zip
-percorso del file estrazioni: C:\workspaces\workspace05\lottoamico/WebContent/WEB-INF/extractions/storico.txt
-nome del file delle estrazioni: storico.txt
+data dell'ultimo utilizzo: mercoledì, 14 giugno 2017 10.16
+e' stata richiesta una forzatura del download
+data dell'ultima estrazione: 2017-06-10
+URL del file delle estrazioni: http://www.lottoscionti.com/Lotto/archivio/zip/estrazioni%202017.zip
+percorso del file estrazioni: C:/Users/Emanuele/git/lottoamico/WebContent/WEB-INF/extractions/estrazioni 2017.txt
+nome del file delle estrazioni: estrazioni 2017.txt
+download del file delle estrazioni da internet...
+il download di estrazioni%202017.zip da internet e' ANDATO BENE
+decompresso file: txt/estrazioni 2017.txt
+decompresso file: html/estrazioni 2017.html
+caricamento delle estrazioni dal file al database...
+|
+Sono state inserite 70 nuove estrazioni nel database
+tempo elaborazione: 0:00:01
+il caricamento dei dati e' terminato correttamente
+cancellato estrazioni 2017.txt
+
 caricamento dei dati del database in memoria
 caricamento tabella delle estrazioni...
 caricamento tabella delle ruote...
@@ -21,4 +33,4 @@ le estrazioni sono state mappate correttamente
 esecuzione dell'interfaccia grafica...
 
 
-*** application closed at: Sun Sep 18 10:30:51 CEST 2016
+*** application closed at: Wed Jun 14 10:18:35 CEST 2017

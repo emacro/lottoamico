@@ -1,0 +1,16 @@
+#Application properties
+#Mon Jun 12 17:01:07 CEST 2017
+application.author=di Emanuele Crocilla' (emanuele.crocilla@gmail.com)
+last.extraction.date=2017-04-11
+main.window.width=888
+run.cached.version=true
+application.revisions=Aug '2007 - Gen '12 - Nov '15
+application.name=Lotto Amico
+main.window.height=1026
+extraction.file.url=https\://www.lottomaticaitalia.it/content/dam/lottomaticaitalia/documents/lotto/zip/storico.zip
+application.language=italiano
+extractor.imlementation=it.emacro.extractor.lottomaticaitalia.ArchivioStoricoExtractor
+last.appllication.use=luned\u00EC, 12 giugno 2017 17.01
+extractions.file.name=storico.txt
+force.extraction.read=false
+application.version=2.2.0

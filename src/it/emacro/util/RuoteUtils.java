@@ -1,11 +1,13 @@
 package it.emacro.util;
 
-import it.emacro.log.Log;
-
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import it.emacro.log.Log;
 
 @SuppressWarnings("serial")
 public class RuoteUtils {
@@ -29,7 +31,18 @@ public class RuoteUtils {
 	private RuoteUtils() {
 	}
 	
+	public static Collection<String> getSigleRuote() {
+		return RUOTE_MAP.keySet();
+	}
 	
+	public static List<String> getNamesRuote() {
+		List<String> res = new ArrayList<>(11);
+		for (SimpleRuota sr : RUOTE_MAP.values()) {
+			res.add(sr.name);
+		}
+		return res;
+	}
+
 	public static Ordinator getNewOrdinator() {
 		return new RuoteUtils().new Ordinator();
 	}
@@ -102,6 +115,32 @@ public class RuoteUtils {
 			this.numbers = numbers;
 		}
 	}
+	
+	public static boolean isRuotaByName(String ruotaName) {
+		for (String name : getNamesRuote()) {
+			if(name.equalsIgnoreCase(ruotaName.trim())) return true;
+		}
+		return false;
+	}
+
+	public static boolean isRuotaBySigla(String ruotaSigla) {
+		for (String rigla : getSigleRuote()) {
+			if(rigla.trim().equalsIgnoreCase(ruotaSigla.trim())) return true;
+		}
+		return false;
+	}
+	
+	public static String getNameBySigla(String ruotaSigla) {
+		return RUOTE_MAP.get(ruotaSigla.trim().toUpperCase()).name;
+	}
+	
+	public static String getSiglaByName(String ruotaName) {
+		for (Entry<String, SimpleRuota> entry : RUOTE_MAP.entrySet()) {
+			if(entry.getValue().name.equalsIgnoreCase(ruotaName.trim())) return entry.getKey();
+		}
+		return null;
+	}
+	
 	
 
 }

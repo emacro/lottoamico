@@ -3,6 +3,15 @@
  */
 package it.emacro.downloader;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
 /**
  * @author Emc
  *
@@ -11,9 +20,6 @@ import it.emacro.log.Log;
 import it.emacro.services.ApplicationData;
 import it.emacro.util.Messenger;
 import it.emacro.util.Utils;
-
-import java.io.*;
-import java.net.*;
 
 public class FileDownloader {
 	
